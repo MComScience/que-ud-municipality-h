@@ -1,0 +1,24 @@
+{
+  "name": "queue-ud-server",
+  "version": "1.0.0",
+  "description": "ระบบคิวโรงพยาบาลเทศบาลอุดรธานี",
+  "main": "server.js",
+  "scripts": {
+    "start": "node .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "MComScience",
+    "ระบบคิวโรงพยาบาลเทศบาลอุดรธานี",
+    "ระบบบริหารจัดการคิวผู้ป่วย"
+  ],
+  "author": "Tanakorn Phompak",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.4",
+    "socket.io": "^2.1.1",
+    "request": "^2.88.0",
+    "body-parser": "^1.18.3",
+    "multiparty": "^4.2.1"
+  }
+}

@@ -1,0 +1,8 @@
+@media (max-width: 768px) {
+    .dt-buttons, .toolbar-wait {
+        display: none;
+    }
+}
+.form-group {
+    margin-bottom: 5px;
+}
