@@ -17,7 +17,6 @@ $this->registerJs('var baseUrl = ' . Json::encode(Url::base(true)) . '; ', View:
 
 $this->title = 'ความพึงพอใจ';
 ?>
-<link href="https://fonts.googleapis.com/css?family=Prompt" rel="stylesheet">
 <style>
     body {
          font-family: 'Prompt', sans-serif;
@@ -44,6 +43,12 @@ $this->title = 'ความพึงพอใจ';
     }
     .btn-lg {
         padding: 5px;
+    }
+    a.btn-info:hover {
+        background-color: #269abc !important;
+    }
+    body.swal2-height-auto {
+        height: inherit !important;
     }
 </style>
 <!-- Header -->
@@ -121,7 +126,7 @@ $this->title = 'ความพึงพอใจ';
     </div>
 </div>
 <div class="footer-mobile">
-    <marquee id="marquee" direction="left"><i class="fa fa-hospital-o"></i> โรงพยาบาลเทศบาลอุดรธานียินดีให้บริการ </marquee>
+    <marquee id="marquee" direction="left"><i class="fa fa-hospital-o"></i> เทศบาลนครอุดรธานียินดีให้บริการ </marquee>
 </div>
 
 <?php
@@ -139,7 +144,7 @@ $('a').on('click', function(e){
                  title: 'ขอบคุณที่มาใช้บริการ',
                  showConfirmButton: false,
                  timer: 3000,
-                 footer: 'โรงพยาบาลเทศบาลอุดรธานี'
+                 footer: 'เทศบาลนครอุดรธานี'
             });
             $('.btn-info:hover').css('background-color','#269abc');
         },
