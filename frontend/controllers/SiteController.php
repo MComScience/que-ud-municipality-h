@@ -17,6 +17,7 @@ use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
+use frontend\modules\app\models\TbRating;
 
 /**
  * Site controller
@@ -282,6 +283,37 @@ class SiteController extends Controller
                 self::recursiveDelete($newPath);
             }
             return @rmdir($path);
+        }
+    }
+
+    public function actionSatis()
+    {
+        $this->layout = 'display';
+        return $this->render('satis');
+    }
+
+    public function actionCreateSatis($id)
+    {
+        $request = Yii::$app->request;
+        if ($request->isAjax){
+            $response = Yii::$app->response;
+            $response->format = \yii\web\Response::FORMAT_JSON;
+            $model = new TbRating();
+            $model->rating_value = $id;
+            $model->user_id = Yii::$app->user->id;
+            $model->created_at = Yii::$app->formatter->asDate('now','php:Y-m-d H:i:s');
+            if($model->save()){
+                return [
+                    'success' => true,
+                    'msg' => 'Completed!',
+                    'model' => $model,
+                ];
+            }else{
+                return [
+                    'success' => true,
+                    'msg' => $model->errors,
+                ];
+            }
         }
     }
 }

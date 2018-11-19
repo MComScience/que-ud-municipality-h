@@ -62,6 +62,9 @@ Icon::map($this, Icon::FI);
                     </li>
                     <?php if(!Yii::$app->user->isGuest):?>
                         <li>
+                            <?= Html::a('<i class="pe-7s-note"></i> ความพึงพอใจ',['/site/satis'],['title' => 'ความพึงพอใจ','data-pjax' => '0']); ?>
+                        </li>
+                        <li>
                             <?= Html::a(Icon::show('newspaper-o').' ข้อมูลส่วนตัว',['/user/settings/profile'],['title' => 'ข้อมูลส่วนตัว','data-pjax' => '0']); ?>
                         </li>
                         <li>
@@ -88,6 +91,9 @@ Icon::map($this, Icon::FI);
                     <?= Html::a('<i class="pe-7s-monitor"></i>',['/app/display/index'],['title' => 'จอแสดงผล']); ?>
                 </li>
                 <?php if(!Yii::$app->user->isGuest):?>
+                    <li class="dropdown">
+                        <?= Html::a('<i class="pe-7s-note"></i>',['/site/satis'],['title' => 'แบบประเมินความพึงพอใจ','target' => '_blank']); ?>
+                    </li>
                     <li class="dropdown">
                         <?= Html::a('<i class="pe-7s-config"></i>',['/app/settings/service-group'],['title' => 'ตั้งค่า']); ?>
                     </li>
