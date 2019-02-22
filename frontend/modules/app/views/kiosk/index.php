@@ -35,6 +35,7 @@ $this->registerJs('var baseUrl = ' . Json::encode(Url::base(true)) . ';', View::
                     'services' => $services,
                     'modelServiceGroup' => $modelServiceGroup,
                     'provider' => $provider,
+                    'modelDevice' => $modelDevice,
                 ]),
                 'active' => true,
                 'options' => ['id' => 'tab-print-ticket'],

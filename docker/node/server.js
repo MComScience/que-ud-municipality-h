@@ -11,7 +11,6 @@ app.use(bodyParser.json());
 
 // Logging Middleware
 app.use(function (req, res, next) {
-    console.log(req.method + ' ' + req.url)
     next();
 });
 
@@ -47,39 +46,57 @@ io.on('connection', function (socket) {
         socket.broadcast.emit('update-display',res);
     });
 
+    socket.on('CHECK_DEVICE', function (res) {
+        socket.broadcast.emit('CHECK_DEVICE',res);
+    });
+
+    socket.on('CHECK_DEVICE_SUCCESS', function (res) {
+        socket.broadcast.emit('CHECK_DEVICE_SUCCESS',res);
+    });
+
+    socket.on('CARD_REMOVED', function (res) {
+        socket.broadcast.emit('CARD_REMOVED',res);
+    });
+
+    socket.on('DEVICE_CONNECTED', function (res) {
+        socket.broadcast.emit('DEVICE_CONNECTED',res);
+    });
+
+    socket.on('DEVICE_DISCONNECTED', function (res) {
+        socket.broadcast.emit('DEVICE_DISCONNECTED',res);
+    });
+
     app.post('/card-inserted', function (req, res) {
         if (!req.body) return res.sendStatus(400)
         socket.broadcast.emit('card-inserted', {
             com_name: req.body.com_name
         });
-        req.on('end', () => {
-            res.send('ok');
-        });
+        res.send('ok');
     });
 
     // POST method route
     app.post('/print-ticket', function (req, res) {
         if (!req.body) return res.sendStatus(400)
-        var form = new multiparty.Form();
 
-        form.on('error', function (err) {
-            console.log('Error parsing form: ' + err.stack);
-        });
+        socket.broadcast.emit('read-smart-card', req.body);
+        // var form = new multiparty.Form();
 
-        form.parse(req, function (err, fields, files) {
-            //console.log('fields: %@', fields);
-            //console.log('files: %@', files);
-            var profile = fields['EZ1503378440057007100[profile]'];
-            profile = JSON.parse(profile[0]);
-            socket.broadcast.emit('read-smart-card', {
-                profile: profile,
-                files: files,
-            });
-        });
+        // form.on('error', function (err) {
+        //     console.log('Error parsing form: ' + err.stack);
+        // });
 
-        req.on('end', () => {
-            res.send('ok');
-        });
+        // form.parse(req, function (err, fields, files) {
+        //     console.log('fields: %@', fields);
+        //     //console.log('files: %@', files);
+        //    /*  var profile = fields['EZ1503378440057007100[profile]'];
+        //     profile = JSON.parse(profile[0]);
+        //     socket.broadcast.emit('read-smart-card', {
+        //         profile: profile,
+        //         files: files,
+        //     }); */
+        // });
+
+        res.send('ok');
     });
 
     socket.on('disconnect', function () {

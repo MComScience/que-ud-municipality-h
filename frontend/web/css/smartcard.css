@@ -1,0 +1,92 @@
+.id-card-container .citizenId {
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    font-weight: 600;
+    color: black;
+}
+.id-card-container .card-name {
+    position: absolute;
+    top: 20%;
+    font-weight: bold;
+    left: 40%;
+    font-size: 15px;
+    color: black;
+}
+.id-card-container span.first-name-en {
+    position: absolute;
+    top: 28%;
+    left: 45%;
+    font-weight: bold;
+    color: darkblue;
+}
+.id-card-container span.last-name-en {
+    position: absolute;
+    top: 34%;
+    left: 47%;
+    color: darkblue;
+    font-weight: bold;
+}
+.id-card-container span.birthday {
+    position: absolute;
+    top: 42%;
+    left: 47%;
+    font-weight: bold;
+    color: black;
+}
+.id-card-container span.birthday-en {
+    position: absolute;
+    top: 49%;
+    left: 50%;
+    font-weight: bold;
+    color: darkblue;
+}
+.id-card-container span.address {
+    position: absolute;
+    top: 62%;
+    left: 29%;
+    font-weight: bold;
+    color: black;
+    max-width: 35%;
+    font-size: 11px;
+}
+.id-card-container span.card-image {
+    position: absolute;
+    top: 46%;
+    left: 64%;
+}
+@media (max-width: 992px) {
+    .id-card-container .image-card {
+        height: 260px;
+        width: 80%;
+    }
+    .id-card-container span.address {
+        left: 25% !important;
+    }
+}
+@media (max-width: 1200px) {
+    .id-card-container span.address {
+        left: 20%;
+        max-width: 45%;
+    }
+}
+@media (max-width: 1500px) {
+    .id-card-container span.card-image {
+        left: 65%;
+    }
+}
+@media (max-width: 1360px) {
+    .id-card-container span.card-image {
+        left: 67% !important;
+    }
+}
+@media (max-width: 1200px) {
+    .id-card-container span.card-image {
+        left: 69% !important;
+    }
+}
+@media (max-width: 992px) {
+    .id-card-container span.card-image {
+        left: 67% !important;
+    }
+}

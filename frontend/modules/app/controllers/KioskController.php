@@ -21,7 +21,7 @@ use frontend\modules\app\models\TbService;
 use kartik\widgets\ActiveForm;
 use Probe\ProviderFactory;
 use yii\helpers\Url;
-
+use frontend\modules\app\models\TbDevice;
 class KioskController extends \yii\web\Controller
 {
     use ModelTrait;
@@ -53,6 +53,7 @@ class KioskController extends \yii\web\Controller
         $provider = ProviderFactory::create();
         $model = new ModelScan();
         $modelServiceGroup = new TbServiceGroup();
+        $modelDevice = new TbDevice();
         $model->service_group_id = $service_group_id;
         if ($service_group_id !== null) {
             $modelServiceGroup = $this->findModelServiceGroup($service_group_id);
@@ -63,6 +64,7 @@ class KioskController extends \yii\web\Controller
             'services' => $services,
             'modelServiceGroup' => $modelServiceGroup,
             'provider' => $provider,
+            'modelDevice' => $modelDevice,
         ]);
     }
 
@@ -183,36 +185,26 @@ class KioskController extends \yii\web\Controller
             $profile = $request->post('profile');
             $modelServiceGroup = $request->post('modelServiceGroup');
             $modelService = $this->findModelService($request->post('service_id'));
-            $token = $profile['data']['id_token'];
-            $data = static::decodeToken($token);
             $modelQue = new TbQue();
             $modelQue->scenario = 'create';
-            if ($data) {
-                $dataProfile = (array)$data;
-                $modelQue->pt_name = $dataProfile['th_fullname'];
-                $modelQue->service_id = $modelService['service_id'];
-                $modelQue->service_group_id = $modelServiceGroup['service_group_id'];
-                $modelQue->id_card = $dataProfile['citizen_id'];
-                $modelQue->que_status_id = TbQue::STATUS_WAIT;
-                if ($modelQue->save()) {
-                    return [
-                        'success' => true,
-                        'message' => 'บันทึกสำเร็จ!',
-                        'modelQue' => $modelQue,
-                        'modelService' => $modelService,
-                        'modelServiceGroup' => $modelServiceGroup,
-                        'url' => Url::to(['/app/kiosk/print-ticket', 'que_ids' => $modelQue['que_ids']])
-                    ];
-                } else {
-                    return [
-                        'success' => false,
-                        'message' => ActiveForm::validate($modelQue),
-                    ];
-                }
+            $modelQue->pt_name = $profile['full_name'];
+            $modelQue->service_id = $modelService['service_id'];
+            $modelQue->service_group_id = $modelServiceGroup['service_group_id'];
+            $modelQue->id_card = $profile['citizenId'];
+            $modelQue->que_status_id = TbQue::STATUS_WAIT;
+            if ($modelQue->save()) {
+                return [
+                    'success' => true,
+                    'message' => 'บันทึกสำเร็จ!',
+                    'modelQue' => $modelQue,
+                    'modelService' => $modelService,
+                    'modelServiceGroup' => $modelServiceGroup,
+                    'url' => Url::to(['/app/kiosk/print-ticket', 'que_ids' => $modelQue['que_ids']])
+                ];
             } else {
                 return [
                     'success' => false,
-                    'message' => 'เกิดข้อผิดพลาด!',
+                    'message' => ActiveForm::validate($modelQue),
                 ];
             }
         }
@@ -252,6 +244,72 @@ class KioskController extends \yii\web\Controller
             'template' => $template,
             'modelService' => $modelService,
         ]);
+    }
+
+    public function actionDecodeData(){
+        $request = Yii::$app->request;
+        if ($request->isAjax) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            $token = $request->post('token');
+            $data = static::decodeToken($token);
+            if($data){
+                $personal = (array)$data;
+                $citizenId = '';
+                $cid = str_split($personal['citizenId']);
+                for ($i = 0; $i <= count($cid) - 1; $i++) {
+                   switch($i){
+                        case 0:
+                            $citizenId .=  $cid[0]. ' ';
+                            break;
+                        case 4:
+                            $citizenId .=  $cid[$i]. ' ';
+                            break;
+                        case 9:
+                            $citizenId .=  $cid[$i]. ' ';
+                            break;
+                        case 11:
+                            $citizenId .=  $cid[$i]. ' ';
+                            break;
+                        default:
+                            $citizenId .=  $cid[$i];
+                   } 
+                }
+                $birthday = explode("-", $personal['birthday']);
+                $month_name = date("M", mktime(0, 0, 0, $birthday[1], 10));
+                $personal['full_name'] = $personal['titleTH'].' '.$personal['firstNameTH'].' '.$personal['lastNameTH'];
+                $personal['citizen_id'] = $citizenId;
+                $personal['first_name_en'] = $personal['titleEN'].' '.$personal['firstNameEN'];
+                $personal['last_name_en'] = $personal['lastNameEN'];
+                $personal['birthdate_th'] = $birthday[2].' '.Yii::$app->formatter->asDate(mktime(0, 0, 0, $birthday[1], 10), 'php:M').' '.($birthday[0] + 543);
+                $personal['birthdate_en'] = $birthday[2].' '.$month_name.'. '.$birthday[0];
+                return [
+                    'success' => true,
+                    'personal' => $personal,
+                ];
+            }else{
+                return [
+                    'success' => false,
+                    'message' => 'เกิดข้อผิดพลาด!',
+                ];
+            }
+        }
+    }
+
+    public function actionCreateDevice()
+    {
+        $modelDevice = new TbDevice();
+        $request = Yii::$app->request;
+        if ($request->isAjax) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            $model = TbDevice::findOne(['device_name' => $request->post('device_name')]);
+            if($model){
+                return 'device already';
+            }else{
+                $modelDevice->device_name = $request->post('device_name');
+                $modelDevice->save();
+                return $modelDevice;
+            }
+        }
     }
 
     public static function decodeToken($token)
