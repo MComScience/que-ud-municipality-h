@@ -131,6 +131,9 @@ $(function() {
         if (modelServiceGroup.service_group_id == res.modelServiceGroup.service_group_id) {
             var table = $('#tb-que-list').DataTable();
             table.ajax.reload();
+            if(app.profile !== null && res.modelQue.id_card === app.profile.citizenId){
+                clearContainer();
+            }
         }
     }).on('DEVICE_CONNECTED', function (res) {
         var com_name = getSelectedPC(); 
