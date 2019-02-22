@@ -252,8 +252,8 @@ class KioskController extends \yii\web\Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             $token = $request->post('token');
             $data = static::decodeToken($token);
-            $personal = (array)$data;
-            if($personal){
+            if($data['status']){
+                $personal = (array)$data['data'];
                 $citizenId = '';
                 $cid = str_split($personal['citizenId']);
                 for ($i = 0; $i <= count($cid) - 1; $i++) {
@@ -290,6 +290,7 @@ class KioskController extends \yii\web\Controller
                 return [
                     'success' => false,
                     'message' => 'เกิดข้อผิดพลาด!',
+                    'data' => $data
                 ];
             }
         }
@@ -317,9 +318,9 @@ class KioskController extends \yii\web\Controller
         $secret = Yii::$app->params['jwtSecretCode'];
         try {
             $decoded = JWT::decode($token, $secret, [static::getAlgo()]);
-            return $decoded;
+            return ['status' => true, 'data' => $decoded];
         } catch (\Exception $e) {
-            return false;
+            return ['status' => false, 'error' => $e->getMessage()];
         }
 
     }
