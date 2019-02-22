@@ -84,6 +84,7 @@ $this->registerJs('var select2Options = ' . Json::encode(ArrayHelper::map($servi
                         'pluginEvents' => [
                             "change" => "function() {
                                 var deviceName = $(this).val();
+                                clearContainer();
                                 if(deviceName !== '' && deviceName !== null){
                                     socket.emit('CHECK_DEVICE', {comName: deviceName});
                                 }else{
@@ -182,9 +183,5 @@ $this->registerJsFile(
         'depends' => [\yii\web\JqueryAsset::className()],
         'position' => View::POS_END
     ]
-);
-$this->registerJs(<<<JS
-
-JS
 );
 ?>
