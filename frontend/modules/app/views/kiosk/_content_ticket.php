@@ -85,6 +85,7 @@ $this->registerJs('var select2Options = ' . Json::encode(ArrayHelper::map($servi
                             "change" => "function() {
                                 var deviceName = $(this).val();
                                 clearContainer();
+                                $('.device-container').html('Device not Connecting!').addClass('text-danger').removeClass('text-success');
                                 if(deviceName !== '' && deviceName !== null){
                                     socket.emit('CHECK_DEVICE', {comName: deviceName});
                                 }else{
