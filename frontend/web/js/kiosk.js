@@ -152,6 +152,17 @@ $(function() {
                     text: errorThrown,
                 });
             },
+            success: function(response) {
+                if(response !== 'device already'){
+                    var data = {
+                        id: res.comName,
+                        text: res.comName
+                    };
+                    
+                    var newOption = new Option(data.text, data.id, false, false);
+                    $('#tbdevice-device_name').append(newOption).trigger('change');
+                }
+            },
         });
     }).on('DEVICE_DISCONNECTED', function (res) {
         var com_name = getSelectedPC();
