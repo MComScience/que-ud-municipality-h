@@ -129,7 +129,8 @@ $(function() {
         }
     }).on('register', function (res) { // ลงทะเบียน, พิมพ์บัตรคิว
         if (modelServiceGroup.service_group_id == res.modelServiceGroup.service_group_id) {
-            dt_tbquelist.ajax.reload();
+            var table = $('#tb-que-list').DataTable();
+            table.ajax.reload();
         }
     }).on('DEVICE_CONNECTED', function (res) {
         var com_name = getSelectedPC(); 
