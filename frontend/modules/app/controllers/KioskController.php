@@ -317,6 +317,7 @@ class KioskController extends \yii\web\Controller
     {
         $secret = Yii::$app->params['jwtSecretCode'];
         try {
+            JWT::$leeway = 60;
             $decoded = JWT::decode($token, $secret, [static::getAlgo()]);
             return ['status' => true, 'data' => $decoded];
         } catch (\Exception $e) {
