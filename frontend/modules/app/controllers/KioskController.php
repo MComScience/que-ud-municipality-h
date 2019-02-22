@@ -252,8 +252,8 @@ class KioskController extends \yii\web\Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             $token = $request->post('token');
             $data = static::decodeToken($token);
-            if($data){
-                $personal = (array)$data;
+            $personal = (array)$data;
+            if($personal){
                 $citizenId = '';
                 $cid = str_split($personal['citizenId']);
                 for ($i = 0; $i <= count($cid) - 1; $i++) {
