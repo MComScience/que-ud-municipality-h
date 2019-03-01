@@ -36,6 +36,11 @@ class KioskController extends \yii\web\Controller
                         'allow' => true,
                         'roles' => ['@'],
                     ],
+                    [
+                        'allow' => true,
+                        'actions' => ['select-device', 'service', 'register', 'register-nocard', 'decode-data', 'print-ticket', 'create-device'],
+                        'roles' => ['@', '?'],
+                    ],
                 ],
             ],
             'verbs' => [
@@ -46,7 +51,7 @@ class KioskController extends \yii\web\Controller
             ],
         ];
     }
-
+    
     public function actionIndex($service_group_id = null)
     {
         $services = [];
@@ -183,14 +188,46 @@ class KioskController extends \yii\web\Controller
         if ($request->isAjax) {
             Yii::$app->response->format = Response::FORMAT_JSON;
             $profile = $request->post('profile');
-            $modelServiceGroup = $request->post('modelServiceGroup');
             $modelService = $this->findModelService($request->post('service_id'));
+            $modelServiceGroup = $this->findModelServiceGroup($modelService['service_group_id']);
             $modelQue = new TbQue();
             $modelQue->scenario = 'create';
             $modelQue->pt_name = $profile['full_name'];
             $modelQue->service_id = $modelService['service_id'];
             $modelQue->service_group_id = $modelServiceGroup['service_group_id'];
             $modelQue->id_card = $profile['citizenId'];
+            $modelQue->que_status_id = TbQue::STATUS_WAIT;
+            if ($modelQue->save()) {
+                return [
+                    'success' => true,
+                    'message' => 'บันทึกสำเร็จ!',
+                    'modelQue' => $modelQue,
+                    'modelService' => $modelService,
+                    'modelServiceGroup' => $modelServiceGroup,
+                    'url' => Url::to(['/app/kiosk/print-ticket', 'que_ids' => $modelQue['que_ids']])
+                ];
+            } else {
+                return [
+                    'success' => false,
+                    'message' => ActiveForm::validate($modelQue),
+                ];
+            }
+        }
+    }
+
+    public function actionRegisterNocard()
+    {
+        $request = Yii::$app->request;
+        if ($request->isAjax) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            $modelService = $this->findModelService($request->post('service_id'));
+            $modelServiceGroup = $this->findModelServiceGroup($modelService['service_group_id']);
+            $modelQue = new TbQue();
+            $modelQue->scenario = 'create';
+            $modelQue->pt_name = null;
+            $modelQue->service_id = $modelService['service_id'];
+            $modelQue->service_group_id = $modelServiceGroup['service_group_id'];
+            $modelQue->id_card = null;
             $modelQue->que_status_id = TbQue::STATUS_WAIT;
             if ($modelQue->save()) {
                 return [
@@ -300,7 +337,7 @@ class KioskController extends \yii\web\Controller
     {
         $modelDevice = new TbDevice();
         $request = Yii::$app->request;
-        if ($request->isAjax) {
+        if ($request->isPost) {
             Yii::$app->response->format = Response::FORMAT_JSON;
             $model = TbDevice::findOne(['device_name' => $request->post('device_name')]);
             if($model){
@@ -329,6 +366,34 @@ class KioskController extends \yii\web\Controller
     public static function getAlgo()
     {
         return 'HS256';
+    }
+
+    public function actionService($deviceId)
+    {
+        $this->layout = '@homer/views/layouts/main-kiosk.php';
+        $device = $this->findModelDevice($deviceId);
+        $sources = [];
+        $groups = TbServiceGroup::find()->all();
+        foreach($groups as $group) {
+            $services = TbService::find()->where(['service_status' => 1, 'service_group_id' => $group['service_group_id']])->all();
+            $sources[] = [
+                'service_group_id' => $group['service_group_id'],
+                'service_group_name' => $group['service_group_name'],
+                'services' => $services
+            ];
+        }
+        return $this->render('service',[
+            'sources' => $sources,
+            'device' => $device
+        ]);
+    }
+
+    public function actionSelectDevice()
+    {
+        $devices = TbDevice::find()->all();
+        return $this->render('select-device',[
+            'devices' => $devices,
+        ]);
     }
 
 }

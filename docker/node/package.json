@@ -15,10 +15,13 @@
   "author": "Tanakorn Phompak",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.16.4",
-    "socket.io": "^2.1.1",
-    "request": "^2.88.0",
+    "axios": "^0.18.0",
     "body-parser": "^1.18.3",
-    "multiparty": "^4.2.1"
+    "csrf": "^3.0.6",
+    "csurf": "^1.9.0",
+    "express": "^4.16.4",
+    "multiparty": "^4.2.1",
+    "request": "^2.88.0",
+    "socket.io": "^2.1.1"
   }
 }

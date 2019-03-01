@@ -2,7 +2,6 @@ var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var bodyParser = require('body-parser');
-var multiparty = require('multiparty');
 
 app.use(bodyParser.urlencoded({
     extended: false
@@ -64,6 +63,10 @@ io.on('connection', function (socket) {
 
     socket.on('DEVICE_DISCONNECTED', function (res) {
         socket.broadcast.emit('DEVICE_DISCONNECTED',res);
+    });
+
+    socket.on('READING_FAIL', function (res) {
+        socket.broadcast.emit('READING_FAIL',res);
     });
 
     app.post('/card-inserted', function (req, res) {

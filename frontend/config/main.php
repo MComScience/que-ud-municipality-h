@@ -83,6 +83,13 @@ return [
             'app/calling/update-status-called',
             'app/display/*',
             'qrcode/*',
+            'app/kiosk/service',
+            'app/kiosk/select-device',
+            'app/kiosk/register',
+            'app/kiosk/register-nocard',
+            'app/kiosk/decode-data',
+            'app/kiosk/print-ticket',
+            'app/kiosk/create-device'
         ]
     ],
     'params' => $params,

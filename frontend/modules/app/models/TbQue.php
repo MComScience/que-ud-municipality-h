@@ -57,6 +57,7 @@ class TbQue extends \yii\db\ActiveRecord
                     ActiveRecord::EVENT_BEFORE_INSERT => ['created_by','updated_by'],
                     ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_by'],
                 ],
+                'value' => Yii::$app->user->isGuest ? null : Yii::$app->user->id
             ],
             [
                 'class' => TimestampBehavior::className(),
@@ -97,7 +98,7 @@ class TbQue extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['pt_name', 'service_id', 'service_group_id', 'que_status_id'], 'required'],
+            [['service_id', 'service_group_id', 'que_status_id'], 'required'],
             [['service_id', 'service_group_id', 'created_by', 'updated_by', 'que_status_id'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
             [['status_times'], 'string'],

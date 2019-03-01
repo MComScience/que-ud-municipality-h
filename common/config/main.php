@@ -10,22 +10,23 @@ return [
         '@Mpdf' => '@common/lib/mpdf/src',
     ],
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
-    'name' => 'ระบบคิวโรงพยาบาลเทศบาลอุดรธานี',
+    'name' => 'ระบบคิวเทศบาลอุดรธานี',
     # ตั้งค่าการใช้งานภาษาไทย (Language)
     'language' => 'th', // ตั้งค่าภาษาไทย
     # ตั้งค่า TimeZone ประเทศไทย
     'timeZone' => 'Asia/Bangkok', // ตั้งค่า TimeZone
     //'sourceLanguage' => 'th-TH',
     'components' => [
-        /*'cache' => [
+        /* 'cache' => [
             'class' => 'yii\caching\FileCache',
-        ],*/
+        ], */
         'cache' => [
             'class' => 'yii\redis\Cache',
             'redis' => 'redis'
         ],
         'authManager' => [
             'class' => 'yii\rbac\DbManager',
+            'cache' => 'cache'
         ],
         'formatter' => [
             'class' => 'yii\i18n\Formatter',

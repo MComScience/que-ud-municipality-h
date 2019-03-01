@@ -17,6 +17,7 @@ use frontend\modules\app\models\TbDisplay;
 use frontend\modules\app\models\TbQue;
 use frontend\modules\app\models\TbService;
 use frontend\modules\app\models\TbCaller;
+use frontend\modules\app\models\TbDevice;
 use yii\web\NotFoundHttpException;
 
 trait ModelTrait
@@ -114,5 +115,14 @@ trait ModelTrait
     private function handleError()
     {
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    protected function findModelDevice($id)
+    {
+        if (($model = TbDevice::findOne($id)) !== null) {
+            return $model;
+        } else {
+            $this->handleError();
+        }
     }
 }
