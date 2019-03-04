@@ -12,7 +12,7 @@ use yii\helpers\Url;
 $identity = Yii::$app->user->identity;
 ?>
 <!-- Navigation -->
-<aside id="menu">
+<aside id="menu" style="top: 80px;">
     <div id="navigation">
         <div class="profile-picture">
             <?php if(!Yii::$app->user->isGuest):?>

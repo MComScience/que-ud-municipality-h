@@ -1,5 +1,5 @@
 'use strict';
-$('body').addClass('hide-sidebar');
+//$('body').addClass('hide-sidebar');
 
 var isEmpty = function (value, trim) {
     return value === null || value === undefined || value.length === 0 || (trim && $.trim(value) === '');

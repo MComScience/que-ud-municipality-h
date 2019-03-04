@@ -15,7 +15,8 @@ use yii\bootstrap\Alert;
  * @var dektrium\user\Module $module
  */
 ?>
-
+<?= \homer\sweetalert2\SweetAlert2::widget(['useSessionFlash' => true]) ?>
+<?php /*
 <?php if ($module->enableFlashMessages): ?>
     <div class="row">
         <div class="col-xs-12">
@@ -30,3 +31,4 @@ use yii\bootstrap\Alert;
         </div>
     </div>
 <?php endif ?>
+*/?>

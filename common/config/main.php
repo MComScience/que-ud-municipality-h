@@ -10,7 +10,7 @@ return [
         '@Mpdf' => '@common/lib/mpdf/src',
     ],
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
-    'name' => 'ระบบคิวเทศบาลอุดรธานี',
+    'name' => 'ระบบคิวเทศบาลนครอุดรธานี',
     # ตั้งค่าการใช้งานภาษาไทย (Language)
     'language' => 'th', // ตั้งค่าภาษาไทย
     # ตั้งค่า TimeZone ประเทศไทย
@@ -80,7 +80,8 @@ return [
             'modelMap' => [
                 'User' => 'homer\user\models\User',
                 'Profile' => 'homer\user\models\Profile',
-                'RegistrationForm' => 'homer\user\models\RegistrationForm'
+                'RegistrationForm' => 'homer\user\models\RegistrationForm',
+                'LoginForm' => 'homer\user\models\LoginForm',
             ],
             'controllerMap' => [
                 'settings' => [

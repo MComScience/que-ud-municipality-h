@@ -30,16 +30,16 @@ Icon::map($this, Icon::FI);
     <div class="color-line">
     </div>
     <a href="/">
-        <div id="logo" class="light-version" style="padding: 10px 10px 18px 18px;">
+        <div id="logo" class="light-version" style="padding: 5px 10px 18px 18px;background-color: #fff;min-height: 88px;">
         <span>
-            <?= Yii::$app->name ?>
+            <?= Html::img(Yii::getAlias('@web/imgs/udoncity-logo.png'),['class' => 'img-responsive center-block','style' => 'max-width: 60%;']); ?>
         </span>
         </div>
     </a>
     <nav role="navigation">
         <div class="header-link hide-menu"><i class="fa fa-bars"></i></div>
-        <div class="small-logo">
-            <span class="text-primary"><?= Yii::$app->name ?></span>
+        <div class="small-logo hidden-xs" style="display: block!important;float: left;">
+            <span class="text-primary" style="font-size:18px;"><?= Yii::$app->name ?></span>
         </div>
         <div class="mobile-menu">
             <button type="button" class="navbar-toggle mobile-menu-toggle" data-toggle="collapse" data-target="#mobile-collapse">

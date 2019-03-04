@@ -23,6 +23,8 @@ $this->registerCss(<<<CSS
 }
 CSS
 );
+$this->registerCss(\Yii::$app->keyStorage->get('background-kiosk',''));
+$this->registerCss(\Yii::$app->keyStorage->get('button-kiosk-position',''));
 $this->registerJsFile(
     YII_DEBUG ? '@web/js/vue/vue.js' : '@web/js/vue/vue.min.js',
     ['position' => View::POS_HEAD]
@@ -37,38 +39,19 @@ $count = count($sources);
 ?>
 <div id="app">
     <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-            <div>
-                <?= Html::img(Yii::getAlias('@web/imgs/customer-service.png'),['class' => 'img-responsive center-block', 'style' => 'max-width: 45px;']) ?>
-            </div>
-            <p><h3>เทศบาลอุดรธานี ยินดีให้บริการ</h3></p>
-        </div>
-    </div>
-    <div class="row">
+        <div class="col-xs-7 col-sm-7 col-md-7 col-xs-offset-4 col-sm-offset-4 col-md-offset-4 text-center button-kiosk">
         <?php foreach($sources as $index => $item): ?>
-            <div class="col-xs-5 col-sm-5 col-md-5 text-center">
+            <?php foreach($item['services'] as $service): ?>
                 <p>
-                    <h3>
-                        <?= Html::img(Yii::getAlias('@web/imgs/check-mark.png'),['class' => 'img-responsive', 'style' => 'display: inline-block;max-width: 45px;']) ?> 
-                        <?= Html::encode($item['service_group_name']) ?>
-                    </h3>
+                    <a
+                    class="btn btn-success btn-lg btn-block btn-service" 
+                    v-on:click="serviceConfirm(<?= $service['service_id'] ?>, '<?= $service['service_name'] ?>')">
+                        <?= Html::encode($service['service_name']) ?>
+                    </a>
                 </p>
-                <?php foreach($item['services'] as $service): ?>
-                    <p>
-                        <a href="#" 
-                        class="btn btn-success btn-lg btn-block btn-service" 
-                        v-on:click="serviceConfirm(<?= $service['service_id'] ?>, '<?= $service['service_name'] ?>')">
-                            <?= Html::encode($service['service_name']) ?>
-                        </a>
-                    </p>
-                <?php endforeach; ?>
-            </div>
-            <?php if($currentId !== $index && $count !== ($index + 1)): ?>
-                <?php $currentId = $index; ?>
-                <div class="col-xs-2 col-sm-2 col-md-2 text-center">
-                </div>
-            <?php endif; ?>
+            <?php endforeach; ?>
         <?php endforeach; ?>
+        </div>
     </div>
 </div>
 
