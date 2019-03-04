@@ -36,7 +36,7 @@ class TbService extends \yii\db\ActiveRecord
             [['service_group_id', 'print_template_id', 'print_copy_qty', 'service_numdigit'], 'integer'],
             [['service_name'], 'string', 'max' => 255],
             [['service_prefix', 'service_status'], 'string', 'max' => 10],
-            ['service_prefix', 'match', 'pattern' => '/^[a-z]\w*$/i']
+            //['service_prefix', 'match', 'pattern' => '/^[a-z]\w*$/i']
         ];
     }
 
