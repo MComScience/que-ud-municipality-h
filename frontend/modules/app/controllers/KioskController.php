@@ -258,9 +258,9 @@ class KioskController extends \yii\web\Controller
             ->from('tb_que')
             ->where([
                 'tb_que.service_group_id' => $modelQue['service_group_id'],
-                'tb_que.created_at' => $modelQue['created_at'],
                 'tb_que.que_status_id' => 1
             ])
+            ->andWhere('created_at < :created_at', [':created_at' => $modelQue['created_at']])
             ->count();
 
         $template = strtr($modelTicket->template, [
