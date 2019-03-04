@@ -16,6 +16,7 @@ var app = new Vue({
                 animation: false,
                 allowOutsideClick: false,
                 cancelButtonText: 'ยกเลิก',
+                heightAuto: false,
             }).then((result) => {
                 if (result.value) {
                 } else {
@@ -77,6 +78,7 @@ var app = new Vue({
                 showCancelButton: false,
                 showConfirmButton: false,
                 allowOutsideClick: false,
+                heightAuto: false,
                 //confirmButtonText: 'มีบัตร',
                 //cancelButtonText: 'ไม่มีบัตร',
                 footer: `<a class="btn btn-lg btn-block btn-success" onclick="onCard()"><i class="fa fa-hand-pointer-o"></i> มีบัตร</a>
