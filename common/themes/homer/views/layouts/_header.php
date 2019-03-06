@@ -57,7 +57,7 @@ Icon::map($this, Icon::FI);
                         <?= Html::a('<i class="pe-7s-speaker"></i>'.' โปรแกรมเสียง',['/app/calling/play-sound'],['title' => 'Sound']); ?>
                     </li>
                     <li>
-                        <?= Html::a('<i class="pe-7s-monitor"></i>'.' จอแสดงผล',['/app/display/index'],['title' => 'จอแสดงผล']); ?>
+                        <?= Html::a('<i class="pe-7s-monitor"></i>'.' จอแสดงผล',['/app/display/all'],['title' => 'จอแสดงผล']); ?>
                     </li>
                     <?php if(!Yii::$app->user->isGuest):?>
                         <li>
