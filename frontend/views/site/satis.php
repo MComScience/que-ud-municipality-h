@@ -44,7 +44,7 @@ $this->title = 'ความพึงพอใจ';
     }
     .btn-lg {
         padding: 5px;
-        border-radius: 50px;
+        border-radius: 100px;
         margin-bottom: 15px;
     }
     a.btn-info:hover {
