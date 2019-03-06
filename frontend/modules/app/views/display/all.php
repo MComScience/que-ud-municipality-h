@@ -259,11 +259,20 @@ $this->registerJs('var baseUrl = '.Json::encode(Url::base(true)).'; ',View::POS_
 </style>
 <div class="row" style="background-color: #62cb31;">
     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-        <?= Html::img(Yii::getAlias('@web/imgs/udoncity-logo.png'),['class' => 'img-responsive']); ?>
+        <?= Html::img(Yii::getAlias('@web/imgs/udoncity-logo.png'),['class' => 'img-responsive image-logo']); ?>
     </div>
-    <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
         <h1 class="color-white header-label-th">เทศบาลอุดรธานี</h1>
         <h2 class="color-white header-label-en">UDON THANI MUNICPALITY</h2>
+    </div>
+    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-center">
+        <h1 class="color-white header-label-date">
+            <?= Yii::$app->formatter->asDate('now', 'php:lที่ m F').' '.(Yii::$app->formatter->asDate('now', 'php:Y') + 543); ?>
+        </h1>
+    </div>
+    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 text-center clock-display" style="font-size: 45px;color: #fff">
+        <span class="color-white header-label-clock">เวลา</span>
+        <span class="time__hours"><?= Yii::$app->formatter->asDate('now','php:H') ?></span>:<span class="time__min"><?= Yii::$app->formatter->asDate('now','php:i') ?></span>:<span class="time__sec"><?= Yii::$app->formatter->asDate('now','php:s') ?></span>
     </div>
 </div>
 <div class="row">
@@ -411,6 +420,24 @@ var Que = {
         }
     },
 };
+$(document).ready(function(){
+    if($(".clock-display")[0]){
+        var a = new Date();
+        a.setDate(a.getDate()),
+        setInterval(function(){
+            var a=(new Date()).getSeconds();
+            $(".time__sec").html((a<10?"0":"")+a);
+        },1e3);
+        setInterval(function(){
+            var a=(new Date()).getMinutes();
+            $(".time__min").html((a<10?"0":"")+a);
+        },1e3);
+        setInterval(function(){
+            var a=(new Date()).getHours();
+            $(".time__hours").html((a<10?"0":"")+a);
+        },1e3);
+    }
+});
 JS
 );
 ?>
