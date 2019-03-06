@@ -31,7 +31,7 @@ class DisplayController extends \yii\web\Controller
                     ],
                     [
                         'allow' => true,
-                        'actions' => ['index', 'view','data-display','data-lastq','data-hold'],
+                        'actions' => ['index', 'view','data-display','data-lastq','data-hold','all'],
                         'roles' => ['?'],
                     ],
                 ],
@@ -105,7 +105,7 @@ class DisplayController extends \yii\web\Controller
                     }
                     $items[] = [
                         'que_number' => count($tempArr) == 1 ? str_replace('|','',implode(" ", $tempArr)) : implode(" ", $tempArr),
-                        'counter_number' => Html::tag('span', $number, ['class' => $class]),
+                        'counter_number' => Html::tag('span', $config['text_th_right'].' '.$number, ['class' => $class]),
                         'data' => $data,
                         'counter_service_call_number' => '-'
                     ];
@@ -116,7 +116,7 @@ class DisplayController extends \yii\web\Controller
                     $items = ArrayHelper::merge($items, $this->renderDefaultData($config, count($items)));
                 }
             } else {
-                $items = $this->renderItems($rows);
+                $items = $this->renderItems($rows, $config);
                 #ถ้าไม่มีข้อมูลคิว
                 if (count($rows) < $config['page_length']) {
                     $items = ArrayHelper::merge($items, $this->renderDefaultData($config));
@@ -219,13 +219,13 @@ class DisplayController extends \yii\web\Controller
         return $items;
     }
 
-    protected function renderItems($rows)
+    protected function renderItems($rows, $config)
     {
         $items = [];
         foreach ($rows as $row) {
             $arr = [
                 'que_number' => Html::tag('span', $row['que_num'], ['class' => $row['que_num']]),
-                'counter_number' => Html::tag('span', $row['counter_service_call_number'], ['class' => $row['que_num']]),
+                'counter_number' => Html::tag('span', $config['text_th_right'].' '.$row['counter_service_call_number'], ['class' => $row['que_num']]),
                 'data' => [$row['que_num']],
                 'counter_service_call_number' => $row['counter_service_call_number'],
                 'DT_RowAttr' => ['data-key' => $row['que_num']],
@@ -234,6 +234,33 @@ class DisplayController extends \yii\web\Controller
             $items[] = $arr;
         }
         return $items;
+    }
+
+    public function actionAll()
+    {
+        $this->layout = '@frontend/views/layouts/display.php';
+        $displays = TbDisplay::find()->where(['display_status' => 1])->all();
+        $options = [];
+        foreach($displays as $config){
+            $display_css = str_replace("#tb-display","#tb-display".$config['display_ids'],$config['display_css']);
+            $config->display_css = strip_tags($display_css);
+            $service_ids = CoreUtility::string2Array($config['service_id']);
+            $counter_service_ids = CoreUtility::string2Array($config['counter_service_id']);
+            $modelCounter = TbCounterService::find()->where(['counter_service_type_id' => $counter_service_ids])->all();
+            $counters = [];
+            foreach ($modelCounter as $item) {
+                $counters[] = (string)$item['counter_service_id'];
+            }
+            $options[] = [
+                'config' => $config,
+                'services' => $service_ids,
+                'counters' => $counters,
+            ];
+        }
+        
+        return $this->render('all', [
+            'options' => $options,
+        ]);
     }
 
 }
