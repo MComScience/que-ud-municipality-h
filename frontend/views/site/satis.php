@@ -147,9 +147,9 @@ $this->title = 'ความพึงพอใจ';
                         <?= Html::img(Yii::getAlias('@web/imgs/very-happy.png'), ['class' => 'img-responsive center-block img-satis faa-vertical animated']) ?>
                     </div>
                     <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                        <h1>ดีมาก</h1>
+                        <h1>มากที่สุด</h1>
                         <h4>
-                            Very Good
+                            
                         </h4>
                     </div>
                 </div>
@@ -166,9 +166,9 @@ $this->title = 'ความพึงพอใจ';
                         <?= Html::img(Yii::getAlias('@web/imgs/happy.png'), ['class' => 'img-responsive center-block img-satis faa-vertical animated']) ?>
                     </div>
                     <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                        <h1>ดี</h1>
+                        <h1>มาก</h1>
                         <h4>
-                            Good
+                            
                         </h4>
                     </div>
                 </div>
@@ -181,9 +181,9 @@ $this->title = 'ความพึงพอใจ';
                         <?= Html::img(Yii::getAlias('@web/imgs/confused.png'), ['class' => 'img-responsive center-block img-satis faa-vertical animated']) ?>
                     </div>
                     <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                        <h1>พอใช้</h1>
+                        <h1>ปานกลาง</h1>
                         <h4>
-                            Fair
+                            
                         </h4>
                     </div>
                 </div>
@@ -202,9 +202,9 @@ $this->title = 'ความพึงพอใจ';
                         <?= Html::img(Yii::getAlias('@web/imgs/very-confused.png'), ['class' => 'img-responsive center-block img-satis faa-vertical animated']) ?>
                     </div>
                     <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                        <h1>แย่</h1>
+                        <h1>น้อย</h1>
                         <h4>
-                            Poor
+                            
                         </h4>
                     </div>
                 </div>
@@ -218,10 +218,10 @@ $this->title = 'ความพึงพอใจ';
                     </div>
                     <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                         <h1>
-                            แย่มาก
+                            น้อยมาก
                         </h1>
                         <h4>
-                            Very Poor
+                            
                         </h4>
                     </div>
                 </div>
