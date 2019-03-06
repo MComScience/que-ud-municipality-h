@@ -258,10 +258,10 @@ $this->registerJs('var baseUrl = '.Json::encode(Url::base(true)).'; ',View::POS_
 
 </style>
 <div class="row" style="background-color: #62cb31;">
-    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
         <?= Html::img(Yii::getAlias('@web/imgs/udoncity-logo.png'),['class' => 'img-responsive image-logo']); ?>
     </div>
-    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
         <h1 class="color-white header-label-th">เทศบาลอุดรธานี</h1>
         <h2 class="color-white header-label-en">UDON THANI MUNICPALITY</h2>
     </div>
