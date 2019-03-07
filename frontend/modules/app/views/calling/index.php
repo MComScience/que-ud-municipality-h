@@ -78,7 +78,7 @@ $this->registerCssFile("@web/css/calling.css", [
     <ul class="">
         <li class="active" data-id="tab-wait" style="width: 33.33%">
             <a data-toggle="tab" href="#tab-wait">
-                <div class="icon"><?= Icon::show('list') ?></div>
+                <div class="icon"></div>
                 <div class="h1">
                     <?= Yii::t('frontend', 'WAIT') ?> <span class="badge badge-warning count-wait">0</span>
                 </div>
@@ -86,7 +86,7 @@ $this->registerCssFile("@web/css/calling.css", [
         </li>
         <li data-id="tab-call" style="width: 33.33%">
             <a data-toggle="tab" href="#tab-call">
-                <div class="icon"><?= Icon::show('list') ?></div>
+                <div class="icon"></div>
                 <div class="h1">
                     <?= Yii::t('frontend', 'CALLING') ?> <span class="badge badge-warning count-call">0</span>
                 </div>
@@ -94,7 +94,7 @@ $this->registerCssFile("@web/css/calling.css", [
         </li>
         <li data-id="tab-hold" style="width: 33.33%">
             <a data-toggle="tab" href="#tab-hold">
-                <div class="icon"><?= Icon::show('list') ?></div>
+                <div class="icon"></div>
                 <div class="h1">
                     <?= Yii::t('frontend', 'HOLD') ?> <span class="badge badge-warning count-hold">0</span>
                 </div>
