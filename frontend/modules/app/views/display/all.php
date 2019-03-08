@@ -267,7 +267,7 @@ $this->registerJs('var baseUrl = '.Json::encode(Url::base(true)).'; ',View::POS_
     </div>
     <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-center">
         <h1 class="color-white header-label-date">
-            <?= Yii::$app->formatter->asDate('now', 'php:lที่ m F').' '.(Yii::$app->formatter->asDate('now', 'php:Y') + 543); ?>
+            <?= Yii::$app->formatter->asDate('now', 'php:lที่ d F').' '.(Yii::$app->formatter->asDate('now', 'php:Y') + 543); ?>
         </h1>
     </div>
     <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 text-center clock-display" style="font-size: 45px;color: #fff">
