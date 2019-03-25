@@ -22,7 +22,7 @@
     margin: 0;
     float: left;
     width: 20%;
-    min-height: 40px;
+    height: 60px;
     display: block;
     color: #9a9b9c;
     overflow: hidden;
@@ -30,7 +30,7 @@
 }
 .mobile-menu-bs ul li.active .icon,
 .mobile-menu-bs ul li.active .h1 {
-    color: #fff;/*#009AA9;*/
+    color: #62cb31;/*#009AA9;*/
 }
 .mobile-menu-bs ul li.active:before {
     position: absolute;
@@ -40,32 +40,23 @@
     right: 0;
     border-bottom: 3px solid #62cb31;
 }
-.mobile-menu-bs ul li.active {
-    background-color: #62cb31;/*#009AA9;*/
-}
 .mobile-menu-bs ul li .icon {
     padding-top: 3px;
     text-align: center;
-    /* height: 35px; */
+    height: 35px;
     line-height: 35px;
 }
 .mobile-menu-bs ul li .icon i {
-    font-size: 20px;
+    /*font-size: 20px;*/
 }
 .mobile-menu-bs ul li .icon i.icon-more {
     font-size: 15px;
 }
 .mobile-menu-bs ul li .h1 {
     margin: 0;
-    margin-top: 10px;
+    margin-top: 3px;
     text-align: center;
     font-size: 12px;
     font-weight: normal;
     color: #9a9b9c;
-}
-/* Medium devices (desktops, 992px and up) */
-@media (min-width: 992px) {
-    .mobile-menu-bs ul li .h1 {
-        font-size: 14px;
-    }
 }

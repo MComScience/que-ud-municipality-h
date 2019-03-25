@@ -17,4 +17,11 @@
     <ul class="nav nav-menu-more" style="margin-top: 40px;border-top: 1px solid #e5e5e5;">
         <li><a href="#"><i class="fa fa-circle-o"></i> ตั้งค่า</a></li>
     </ul>
+    <div class="form-group">
+        <select2 :options="profileOptions"
+                 id="select2-profile"
+                 v-on:change-selection="onChangeSelection">
+            <option value>เซอร์วิสโปรไฟล์</option>
+        </select2>
+    </div>
 </div>

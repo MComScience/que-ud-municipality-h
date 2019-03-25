@@ -18,6 +18,7 @@ use frontend\modules\app\traits\ModelTrait;
 use yii\helpers\Json;
 use yii\web\BadRequestHttpException;
 use yii\web\HttpException;
+use yii\helpers\ArrayHelper;
 
 class CallingController extends \yii\web\Controller
 {
@@ -35,7 +36,7 @@ class CallingController extends \yii\web\Controller
                     ],
                     [
                         'allow' => true,
-                        'actions' => ['play-sound','autoplay-media','update-status-called'],
+                        'actions' => ['play-sound', 'autoplay-media', 'update-status-called'],
                         'roles' => ['?'],
                     ],
                 ],
@@ -343,28 +344,30 @@ class CallingController extends \yii\web\Controller
         }
     }
 
-    public function actionPlaySound() {
+    public function actionPlaySound()
+    {
         $request = Yii::$app->request;
         $model = new TbSoundStation();
-        if($model->load($request->post())){
-            $data = $request->post('TbSoundStation',[]);
-            if(isset($data['sound_station_id']) && !empty($data['sound_station_id'])){
+        if ($model->load($request->post())) {
+            $data = $request->post('TbSoundStation', []);
+            if (isset($data['sound_station_id']) && !empty($data['sound_station_id'])) {
                 $model = $this->findModelSoundStation($data['sound_station_id']);
                 $model->counter_service_id = CoreUtility::string2Array($model['counter_service_id']);
             }
         }
-        return $this->render('play-sound',['model' => $model]);
+        return $this->render('play-sound', ['model' => $model]);
     }
 
-    public function actionAutoplayMedia(){
+    public function actionAutoplayMedia()
+    {
         $request = Yii::$app->request;
-        $response =  [];
-        if($request->isAjax){
+        $response = [];
+        if ($request->isAjax) {
             \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
             $data = $request->post();
-            if($data){
-                $query = TbCaller::find()->where(['call_status_id' => TbCaller::STATUS_CALLING,'counter_service_id' => $data['counter_service_id']])->orderBy(['call_timestp' => SORT_ASC])->all();
-                foreach($query as $item){
+            if ($data) {
+                $query = TbCaller::find()->where(['call_status_id' => TbCaller::STATUS_CALLING, 'counter_service_id' => $data['counter_service_id']])->orderBy(['call_timestp' => SORT_ASC])->all();
+                foreach ($query as $item) {
                     $modelCounterService = $this->findModelCounterService($item['counter_service_id']);
                     $response[] = [
                         'data' => [],
@@ -373,25 +376,26 @@ class CallingController extends \yii\web\Controller
                         'formData' => [],
                         'modelCaller' => $item,
                         'modelCounterService' => $modelCounterService,
-                        'media_files' => $this->getMediaFiles($item->que->que_num,$item['counter_service_id']),
+                        'media_files' => $this->getMediaFiles($item->que->que_num, $item['counter_service_id']),
                     ];
                 }
             }
             return $response;
-        }else{
+        } else {
             throw new BadRequestHttpException(Yii::t('app', 'The system could not process your request. Please check and try again.'));
         }
     }
 
-    public function actionUpdateStatusCalled($caller_ids){
+    public function actionUpdateStatusCalled($caller_ids)
+    {
         $request = Yii::$app->request;
-        if($request->isAjax){
+        if ($request->isAjax) {
             \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
             $modelCaller = $this->findModelCaller($caller_ids);
             $modelCaller->call_status_id = TbCaller::STATUS_CALLED;
             $modelCaller->save(false);
             return $modelCaller;
-        }else{
+        } else {
             throw new BadRequestHttpException(Yii::t('app', 'The system could not process your request. Please check and try again.'));
         }
     }
@@ -404,6 +408,49 @@ class CallingController extends \yii\web\Controller
             'counter_id' => $counter_service_id,
         ]);
         return $component->getSource();
+    }
+
+    public function actionOnMobile()
+    {
+        return $this->render('_call_on_mobile');
+    }
+
+    public function actionDataProfileOptions()
+    {
+        $request = Yii::$app->request;
+        $response = Yii::$app->response;
+        $response->format = \yii\web\Response::FORMAT_JSON;
+        $profiles = ArrayHelper::map(TbServiceProfile::find()->where(['service_profile_status' => 1])->asArray()->all(), 'service_profile_id', 'service_profile_name');
+        return $profiles;
+    }
+
+    public function actionDataCounterOptions($profileId)
+    {
+        $response = Yii::$app->response;
+        $response->format = \yii\web\Response::FORMAT_JSON;
+        $modelProfile = $this->findModelServiceProfile($profileId);
+        $counters = ArrayHelper::map(TbCounterService::find()->where(['counter_service_type_id' => $modelProfile['counter_service_type_id'],'counter_service_status' => 1])->asArray()->all(),'counter_service_id','counter_service_name');
+        return $counters;
+    }
+
+    public function actionDataCallingOptions($profileId, $counterId)
+    {
+        $response = Yii::$app->response;
+        $response->format = \yii\web\Response::FORMAT_JSON;
+
+        $modelProfile = $this->findModelServiceProfile($profileId);
+        $attributes = [
+            'service_profile_id' => $modelProfile['service_profile_id'],
+            'service_id' => CoreUtility::string2Array($modelProfile['service_id']),
+            'counter_service_type_id' => $modelProfile['counter_service_type_id'],
+            'counter_service_id' => $counterId,
+        ];
+        $formData = $attributes;
+        $modelProfile->setAttributes($attributes);
+        return [
+            'modelProfile' => $modelProfile,
+            'formData' => $formData
+        ];
     }
 
 }

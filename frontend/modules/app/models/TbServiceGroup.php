@@ -30,6 +30,7 @@ class TbServiceGroup extends \yii\db\ActiveRecord
             [['service_group_name', 'service_group_status'], 'required'],
             [['service_group_status'], 'integer'],
             [['service_group_name'], 'string', 'max' => 255],
+            ['service_group_name', 'unique'],
         ];
     }
 

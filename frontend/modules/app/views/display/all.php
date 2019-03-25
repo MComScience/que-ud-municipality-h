@@ -319,7 +319,6 @@ $this->registerCss($option['config']['display_css']);
                     'clientEvents' => [
                         'error.dt' => 'function ( e, settings, techNote, message ){
                         e.preventDefault();
-                        console.warn("error message",message);
                     }'
                     ],
                 ],
@@ -339,7 +338,6 @@ $this->registerJs(<<<JS
 //Socket Events
 $(function () {
     socket.on('on-show-display', (res) => { //เรียกคิว
-        console.log(res)
         if (jQuery.inArray(res.artist.modelCaller.counter_service_id.toString(), {$counters}) !== -1 &&
             jQuery.inArray(res.artist.modelQue.service_id.toString(), {$services}) !== -1) {
             Que.reloadDisplay('{$displayId}');
@@ -403,8 +401,6 @@ var Que = {
         }
     },
     blink: function (res, config) { //สั่งกระพริบ
-        console.log('res', res);
-        console.log('config', config)
         if (config.que_column_length > 1) {
             $('span.' + res.title + ', .' + res.artist.modelCounterService.counter_service_call_number).modernBlink({
                 duration: 1000,

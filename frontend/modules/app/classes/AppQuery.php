@@ -92,6 +92,12 @@ class AppQuery
                     'format' => 'raw',
                 ],
                 [
+                    'attribute' => 'service_status_id',
+                    'value' => function ($model, $key, $index) {
+                        return $model['service_status'];
+                    },
+                ],
+                [
                     'attribute' => 'hos_name_th',
                 ],
                 [
@@ -196,6 +202,12 @@ class AppQuery
                     'format' => 'raw',
                 ],
                 [
+                    'attribute' => 'status_id',
+                    'value' => function ($model, $key, $index) {
+                        return $model['counter_service_status'];
+                    },
+                ],
+                [
                     'class' => ActionColumn::className(),
                     'template' => '{update} {delete}',
                     'updateOptions' => [
@@ -262,6 +274,12 @@ class AppQuery
                         return static::getBadgeStatus($model['sound_station_status']);
                     },
                     'format' => 'raw'
+                ],
+                [
+                    'attribute' => 'sound_station_status_id',
+                    'value' => function ($model, $key, $index) {
+                        return $model['sound_station_status'];
+                    },
                 ],
                 [
                     'class' => ActionColumn::className(),
@@ -337,6 +355,12 @@ class AppQuery
                     'format' => 'raw'
                 ],
                 [
+                    'attribute' => 'service_profile_status_id',
+                    'value' => function ($model, $key, $index) {
+                        return $model['service_profile_status'];
+                    },
+                ],
+                [
                     'class' => ActionColumn::className(),
                     'template' => '{update} {delete}',
                     'updateOptions' => [
@@ -404,6 +428,12 @@ class AppQuery
                     'format' => 'raw',
                 ],
                 [
+                    'attribute' => 'ticket_status_id',
+                    'value' => function ($model, $key, $index) {
+                        return $model['ticket_status'];
+                    },
+                ],
+                [
                     'class' => ActionColumn::className(),
                     'template' => '{update} {delete}',
                     'updateOptions' => [
@@ -462,6 +492,12 @@ class AppQuery
                         return static::getBadgeStatus($model['display_status']);
                     },
                     'format' => 'raw'
+                ],
+                [
+                    'attribute' => 'display_status_id',
+                    'value' => function ($model, $key, $index) {
+                        return $model['display_status'];
+                    },
                 ],
                 [
                     'class' => ActionColumn::className(),
@@ -1286,7 +1322,7 @@ class AppQuery
         if ($status == 0) {
             return \kartik\helpers\Html::badge(Icon::show('close') .Yii::t('frontend','UnActive'), ['class' => 'badge badge-danger']);
         } elseif ($status == 1) {
-            return \kartik\helpers\Html::badge(Icon::show('check') .Yii::t('frontend','Active'), ['class' => 'badge badge-primary']);
+            return \kartik\helpers\Html::badge(Icon::show('check') .Yii::t('frontend','Active'), ['class' => 'badge badge-success']);
         }
     }
 

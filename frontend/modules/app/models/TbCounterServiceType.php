@@ -30,6 +30,7 @@ class TbCounterServiceType extends \yii\db\ActiveRecord
         return [
             [['counter_service_type_name'], 'required'],
             [['counter_service_type_name'], 'string', 'max' => 50],
+            ['counter_service_type_name', 'unique'],
         ];
     }
 

@@ -1,0 +1,58 @@
+.nav-menu-more li a {
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.body-tab {
+    border: 0px !important;
+}
+
+.panel-body-calling {
+    position: fixed !important;
+    height: auto;
+    bottom: 12%;
+    width: 100%;
+    right: 0;
+}
+
+button.btn.btn-lg.btn-info.btn-block {
+    box-shadow: 0 4px #ccc;
+    font-size: x-large;
+}
+
+h1.label-queue-number {
+    font-weight: 600;
+    font-size: 5em;
+}
+
+.label-personal-info {
+    text-shadow: 0 1px #ccc;
+    font-size: medium;
+    color: #2ab4c0;
+}
+
+.label-counter-detail {
+    color: #2ab4c0;
+}
+
+.input-search {
+    text-transform: uppercase;
+}
+.vertical-align-middle {
+    vertical-align: middle !important;
+}
+.border-top-none {
+    border-top: 1px solid #fff !important;
+}
+.font-red-haze {
+    color: #f36a5a!important;
+}
+.font-blue-sharp {
+    color: #5C9BD1!important;
+}
+.padding-zero {
+    padding: 0px !important;
+}
+.btn-circle-swal, .swal2-footer .btn-lg, .swal2-confirm, .swal2-cancel {
+    border-radius: 25px!important;
+    overflow: hidden;
+}
