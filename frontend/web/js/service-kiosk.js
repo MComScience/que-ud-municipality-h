@@ -34,6 +34,7 @@ var app = new Vue({
                 showConfirmButton: false,
                 animation: false,
                 allowOutsideClick: false,
+                heightAuto: false,
             });
             $.ajax({
                 url: baseUrl + '/app/kiosk/register-nocard',
@@ -52,7 +53,8 @@ var app = new Vue({
                             html: `<img src="/imgs/ticket.png" class="img-responsive center-block" />`,
                             showConfirmButton: false,
                             showCancelButton: false,
-                            timer: 2000
+                            timer: 2000,
+                            heightAuto: false,
                         });
                     } else {
                         swal('Oops...', JSON.stringify(res.message), 'error');
@@ -117,6 +119,7 @@ $(function() {
                 showConfirmButton: false,
                 animation: false,
                 allowOutsideClick: false,
+                heightAuto: false,
             });
         }
     }).on('read-smart-card', function (res) {// อ่านบัตรเสร็จ
@@ -131,6 +134,7 @@ $(function() {
                         type: 'error',
                         title: textStatus,
                         text: errorThrown,
+                        heightAuto: false,
                     });
                 },
                 success: function (response) {
@@ -153,7 +157,8 @@ $(function() {
                                         html: `<img src="/imgs/ticket.png" class="img-responsive center-block" />`,
                                         showConfirmButton: false,
                                         showCancelButton: false,
-                                        timer: 2000
+                                        timer: 2000,
+                                        heightAuto: false,
                                     });
                                 } else {
                                     swal('Oops...', res.message, 'error');
@@ -166,6 +171,7 @@ $(function() {
                                     type: 'error',
                                     title: textStatus,
                                     text: errorThrown,
+                                    heightAuto: false,
                                 });
                             }
                         });
