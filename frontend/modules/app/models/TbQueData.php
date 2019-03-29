@@ -40,7 +40,7 @@ class TbQueData extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['que_ids', 'que_num', 'que_hn', 'pt_name', 'service_id', 'service_group_id', 'created_at', 'created_by', 'que_status_id'], 'required'],
+            [['que_ids', 'que_num','service_id', 'service_group_id', 'created_at', 'que_status_id'], 'required'],
             [['que_ids', 'service_id', 'service_group_id', 'created_by', 'updated_by', 'que_status_id'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
             [['status_times'], 'string'],
