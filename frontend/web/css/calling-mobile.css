@@ -56,3 +56,9 @@ h1.label-queue-number {
     border-radius: 25px!important;
     overflow: hidden;
 }
+
+@media (max-width: 768px) {
+    .panel-body-calling {
+        bottom: 10%;
+    }
+}

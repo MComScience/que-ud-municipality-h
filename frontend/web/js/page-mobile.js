@@ -56,6 +56,7 @@ var app = new Vue({
         counterId: null,
         tblCalling: null,
         tblHold: null,
+        tblWait: null,
         formData: null,
         modelProfile: null,
         dataWaiting: null,
@@ -64,7 +65,8 @@ var app = new Vue({
             queueNumber: '',
             info: null,
             event: null
-        }
+        },
+        showAction: true,
     },
     methods: {
         onSubmit: function () {
@@ -404,6 +406,8 @@ var app = new Vue({
                 dataType: "json",
                 success: function (response) {
                     vm.dataWaiting = response.data;
+                    vm.tblWait.clear().draw();
+                    vm.tblWait.rows.add(response.data).draw();
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
                     vm.handleAjaxError(textStatus, errorThrown);
@@ -466,6 +470,49 @@ var app = new Vue({
                 }
             }
             return label;
+        },
+        initDataTableWait: function () {
+            const vm = this;
+            vm.tblWait = $('#tbl-wait').DataTable({
+                "dom": "<'row'<'col-sm-12'f>><'row'<'col-xs-12 col-sm-12 col-md-12 padding-zero'tr>><'row'<'col-sm-6'i><'col-sm-6'p>>",
+                "language": {
+                    "search": "_INPUT_",
+                    "searchPlaceholder": "ค้นหา...",
+                },
+                "autoWidth": false,
+                "pageLength": 5,
+                "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
+                "info": false,
+                "bLengthChange": false,
+                "data": [],
+                "ordering": false,
+                "columns": [
+                    {
+                        data: null,
+                        defaultContent: '<i class="pe-7s-user pe-3x"></i>',
+                        className: 'text-center vertical-align-middle border-top-none',
+                        /*render: function (data, type, row, meta) {
+                            return (meta.row + 1);
+                        },*/
+                        orderable: false
+                    },
+                    {
+                        data: null,
+                        render: function (data, type, row, meta) {
+                            return '<h4 class="font-blue-sharp">' + data.que_num + '</h4><p>' + data.pt_name + ' </p>';
+                        },
+                        className: '',
+                        orderable: false
+                    },
+                    {
+                        data: null,
+                        defaultContent: '<button class="btn btn-default"><i class="glyphicon glyphicon-option-vertical"></i></button>',
+                        orderable: false,
+                        className: 'text-center vertical-align-middle'
+                    },
+                ],
+                //"info": false
+            });
         },
         initDataTableCalling: function () {
             const vm = this;
@@ -938,6 +985,15 @@ var app = new Vue({
                     vm.handleAjaxError(textStatus, errorThrown);
                 }
             });
+        },
+        toggleAction() {
+            const vm = this
+            vm.showAction = !vm.showAction;
+            if(!vm.showAction){
+                $('.panel-body-calling').css('width', '70px').css('height', '70px');
+            } else {
+                $('.panel-body-calling').css('width', '').css('height', '');
+            }
         }
     },
     components: {
@@ -945,6 +1001,7 @@ var app = new Vue({
     },
     mounted: function () {
         this.fetchDataOptionProfile()
+        this.initDataTableWait()
         this.initDataTableCalling()
         this.initDataTableHold()
     },
@@ -964,6 +1021,20 @@ $('#modalSearch').on('hidden.bs.modal', function (e) {
     setTimeout(() => {
         app.$refs.input.focus()
     }, 500)
+});
+
+$('#tbl-wait tbody').on('click', 'tr', function () {
+    var table = $('#tbl-wait').DataTable();
+    $('#tbl-wait tbody').find('tr.info').removeClass('info');
+    $(this).toggleClass('info');
+    var idx = table
+        .row(this)
+        .index();
+    var rows = table.rows(idx).data();
+    if (rows.hasOwnProperty(0)) {
+        app.search = rows[0].que_num;
+        app.onSubmit()
+    }
 });
 
 $('#tbl-calling tbody').on('click', 'tr', function () {
@@ -1009,7 +1080,7 @@ checkFormData = (res) => {
 
 $(function () {
     socket.on('register', (res) => { //อกกบัตรคิว
-        if (jQuery.inArray(res.modelQue.service_id, app.formData.service_id) !== -1 && !app.isEmpty(app.formData)) {
+        if (app.formData.service_id.includes(res.modelQue.service_id.toString()) && !app.isEmpty(app.formData)) {
             toastr.warning('#' + res.modelQue.que_num + '<p><i class="fa fa-user"></i> ' + res.modelQue.pt_name + '</p>', 'คิวใหม่!', {
                 "timeOut": 5000,
                 "positionClass": "toast-top-right",

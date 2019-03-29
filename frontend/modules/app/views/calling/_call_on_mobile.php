@@ -100,6 +100,23 @@ SocketIOAsset::register($this);
                         </div>
                     </div>
                 </div>
+                <div class="hpanel">
+                    <div class="panel-body">
+                        <h4 class="label-counter-detail">
+                            คิวรอเรียก
+                        </h4>
+                        <table class="table table-condensed" id="tbl-wait">
+                            <thead class="hidden">
+                                <tr>
+                                    <th>#</th>
+                                    <th>คิว</th>
+                                    <th>ชื่อ-นามสกุล</th>
+    <!--                                <th>กลุ่มบริการ</th>-->
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
                 <!-- Modal -->
                 <div class="modal fade" id="modalSearch">
                     <div class="modal-dialog">
@@ -140,39 +157,61 @@ SocketIOAsset::register($this);
                 <div class="hpanel">
                     <div class="panel-body panel-body-calling">
                         <div class="row">
+                            <div class="col-xs-12 col-sm-12 text-right">
+                                <p>
+                                    <button class="btn btn-sm btn-danger" v-on:click="toggleAction">
+                                        <i class="fa fa-angle-double-right" v-if="showAction"></i>
+                                        <i class="fa fa-angle-double-left" v-if="!showAction"></i>
+                                    </button>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row">
                             <div class="col-xs-6 col-sm-6">
-                                <button class="btn btn-lg btn-info btn-block "
-                                        v-on:click="onCallNext"
-                                        style="border-radius: 25px!important;">
-                                    <i class="fa fa-hand-o-right"></i> คิวถัดไป
-                                </button>
+                                <p>
+                                    <button class="btn btn-lg btn-info btn-block "
+                                            v-on:click="onCallNext"
+                                            style="border-radius: 25px!important;"
+                                            v-if="showAction">
+                                        <i class="fa fa-hand-o-right"></i> คิวถัดไป
+                                    </button>
+                                </p>
                             </div>
                             <div class="col-xs-6 col-sm-6">
-                                <button class="btn btn-lg btn-info btn-block"
-                                        v-on:click="onRecall"
-                                        :disabled="!dataOnState.info"
-                                        style="border-radius: 25px!important;">
-                                    <i class="fa fa-refresh"></i> เรียกซ้ำ
-                                </button>
+                                <p>
+                                    <button class="btn btn-lg btn-info btn-block"
+                                            v-on:click="onRecall"
+                                            :disabled="!dataOnState.info"
+                                            style="border-radius: 25px!important;"
+                                            v-if="showAction">
+                                        <i class="fa fa-refresh"></i> เรียกซ้ำ
+                                    </button>
+                                </p>
                             </div>
                         </div>
                         <br>
                         <div class="row">
                             <div class="col-xs-6 col-sm-6">
-                                <button class="btn btn-lg btn-info btn-block"
-                                        v-on:click="onHold"
-                                        :disabled="!dataOnState.info"
-                                        style="border-radius: 25px!important;">
-                                    <i class="fa fa-hand-paper-o"></i> พักคิว
-                                </button>
+                                <p>
+                                    <button class="btn btn-lg btn-info btn-block"
+                                            v-on:click="onHold"
+                                            :disabled="!dataOnState.info"
+                                            style="border-radius: 25px!important;"
+                                            v-if="showAction">
+                                        <i class="fa fa-hand-paper-o"></i> พักคิว
+                                    </button>
+                                </p>
                             </div>
                             <div class="col-xs-6 col-sm-6">
-                                <button class="btn btn-lg btn-info btn-block"
-                                        v-on:click="onEnd"
-                                        :disabled="!dataOnState.info"
-                                        style="border-radius: 25px!important;">
-                                    <i class="fa fa-check-circle-o"></i> เสร็จสิ้น
-                                </button>
+                                <p>
+                                    <button class="btn btn-lg btn-info btn-block"
+                                            v-on:click="onEnd"
+                                            :disabled="!dataOnState.info"
+                                            style="border-radius: 25px!important;"
+                                            v-if="showAction">
+                                        <i class="fa fa-check-circle-o"></i> เสร็จสิ้น
+                                    </button>
+                                </p>
                             </div>
                         </div>
                     </div>
