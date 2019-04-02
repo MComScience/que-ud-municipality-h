@@ -60,7 +60,7 @@ $this->title = 'Mobile View';
         <div class="col-md-6 col-md-offset-3">
             <div class="widget-head-color-box navy-bg p-lg text-center" style="border-radius: 5px 5px 5px 5px;">
                 <div class="mobile-content">
-                    <img src="<?= Yii::getAlias('@web/imgs/udh-logo.png') ?>" class="rounded-circle img-responsive center-block" alt="profile" width="100px" height="100px">
+                    <img src="<?= Yii::getAlias('@web/imgs/udoncity-logo.png') ?>" class="rounded-circle img-responsive center-block" alt="profile" width="100px" height="100px">
                     <div class="m-b-md">
                         <h2 class="font-bold no-margins">
                             เทศบาลนครอุดรธานี
