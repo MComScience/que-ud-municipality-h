@@ -63,7 +63,7 @@ $this->title = 'Mobile View';
                     <img src="<?= Yii::getAlias('@web/imgs/udh-logo.png') ?>" class="rounded-circle img-responsive center-block" alt="profile" width="100px" height="100px">
                     <div class="m-b-md">
                         <h2 class="font-bold no-margins">
-                            โรงพยาบาลเทศบาลอุดรธานี
+                            เทศบาลนครอุดรธานี
                         </h2>
                         <small></small>
                     </div>
