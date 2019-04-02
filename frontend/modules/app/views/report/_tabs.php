@@ -8,18 +8,23 @@ echo Tabs::widget([
     'items' => [
         [
             'label' => Yii::t('frontend', 'Chart'),
-            'url' => Url::to(['/app/report/chart']),
+            'url' => $action == 'chart' ? '#' : Url::to(['/app/report/chart']),
             'active' => $action == 'chart' ? true : false,
         ],
         [
             'label' => 'ระยะเวลารอคอย(แบ่งตามช่วงเวลา)',
-            'url' => Url::to(['/app/report/index']),
+            'url' => $action == 'index' ? '#' : Url::to(['/app/report/index']),
             'active' => $action == 'index' ? true : false,
         ],
         [
             'label' => 'รายงานระยะเวลารอคอย(ภาพรวม)',
-            'url' => Url::to(['/app/report/report-summary']),
+            'url' => $action == 'report-summary' ? '#' : Url::to(['/app/report/report-summary']),
             'active' => $action == 'report-summary' ? true : false,
+        ],
+        [
+            'label' => 'รายงานความพึงพอใจ',
+            'url' => $action == 'satis' ? '#' : Url::to(['/app/report/satis']),
+            'active' => $action == 'satis' ? true : false,
         ],
     ],
     'renderTabContent' => false

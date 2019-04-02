@@ -6,13 +6,15 @@ use frontend\modules\app\models\Report;
 use frontend\modules\app\models\TbQueData;
 use frontend\modules\app\models\TbService;
 use frontend\modules\app\models\TbServiceGroup;
+use frontend\modules\app\models\TbRating;
+use frontend\modules\app\models\TbRatingReason;
 use Yii;
 use yii\data\ArrayDataProvider;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
-
+use kartik\grid\GridView;
 class ReportController extends \yii\web\Controller
 {
     public function behaviors()
@@ -321,8 +323,8 @@ class ReportController extends \yii\web\Controller
         $result = [];
         $data = $request->post('Report');
         if ($modelReport->load($request->post())){
-            $from_date = empty($posted['from_date']) ? substr($data['date_range'], 0, 10) : $data['from_date'];
-            $to_date = empty($posted['to_date']) ? substr($data['date_range'], 13, 22) : $data['to_date'];
+            $from_date = empty($data['date_range']) ? substr($data['date_range'], 0, 10) : $data['from_date'];
+            $to_date = empty($data['date_range']) ? substr($data['date_range'], 13, 22) : $data['to_date'];
             //$response->format = \yii\web\Response::FORMAT_JSON;
             $rowsServices = (new \yii\db\Query())
                 ->select([
@@ -428,6 +430,105 @@ class ReportController extends \yii\web\Controller
     protected function getAvg($array)
     {
         return count($array) > 0 ? array_sum($array) / count($array) : 0;
+    }
+
+
+    public function actionSatis()
+    {
+        $result = [];
+        $reasonArr = [];
+        $request = Yii::$app->request;
+        $modelReport = new Report();
+        $data = $request->post('Report');
+        $reportHeader = '';
+        $summary = 0;
+        if ($modelReport->load($request->post())){
+            $from_date = !empty($data['date_range']) ? substr($data['date_range'], 0, 10) : $data['from_date'];
+            $to_date = !empty($data['date_range']) ? substr($data['date_range'], 13, 22) : $data['to_date'];
+            $items  = [
+               [ 'value' => 5, 'label' => 'มากที่สุด'],
+               [ 'value' => 4, 'label' => 'มาก'],
+               [ 'value' => 3, 'label' => 'ปานกลาง'],
+               [ 'value' => 2, 'label' => 'น้อย'],
+               [ 'value' => 1, 'label' => 'น้อยที่สุด'],
+            ];
+
+            foreach ($items as $key => $item) {
+                $count = TbRating::find()
+                ->where(['user_id' => $data['user'], 'rating_value' => $item['value']])
+                ->andWhere(['between', 'created_at', $from_date.' 00:00:01', $to_date.' 23:59:59'])
+                ->count();
+                
+                $result[] = [
+                    'count' => $count,
+                    'value' => $item['value'],
+                    'label' => $item['label'],
+                ];
+                $summary = $summary + $count;
+            }
+            $reasons  = [
+                [ 'value' => 1, 'label' => 'พูดจาไม่สุภาพ'],
+                [ 'value' => 2, 'label' => 'ไม่ใส่ใจบริการ'],
+                [ 'value' => 3,'label' => 'ทำงานไม่ตรงเวลา'],
+                [ 'value' => 4, 'label' => 'ล่าช้า'],
+            ];
+            $ratings  = [2, 1];
+            foreach ($ratings as $rating) {
+                $arr = [];
+                $arr = ArrayHelper::merge($arr,[
+                    ['content' => $rating == 2 ? 'น้อย' : 'น้อยมาก', 'options' => ['style' => 'text-align: center; width: 16.6%']],
+                ]);
+                foreach ($reasons as $k => $reason) {
+                    $countReason = TbRatingReason::find()
+                    ->where(['user_id' => $data['user'], 'reason_value' => $reason['value'], 'rating_value' => $rating])
+                    ->andWhere(['between', 'created_at', $from_date.' 00:00:01', $to_date.' 23:59:59'])
+                    ->count();
+                    $arr = ArrayHelper::merge($arr, [
+                        ['content' => $countReason, 'options' => ['style' => 'text-align: center; width: 16.6%']],
+                    ]);
+                }
+                $sum = TbRatingReason::find()
+                ->where(['user_id' => $data['user'],'rating_value' => $rating])
+                ->andWhere(['between', 'created_at', $from_date.' 00:00:01', $to_date.' 23:59:59'])
+                ->count();
+                $arr = ArrayHelper::merge($arr,[
+                    ['content' => $sum, 'options' => ['style' => 'text-align: center; width: 16.6%']],
+                ]);
+                $reasonArr[] = ['columns' => $arr];
+            }
+            $reportHeader = Yii::$app->formatter->asDate($from_date,'php:d F พ.ศ. '). (Yii::$app->formatter->asDate($from_date,'php:Y') + 543 ).
+            ' ถึงวันที่ '.Yii::$app->formatter->asDate($to_date,'php:d F พ.ศ. '). (Yii::$app->formatter->asDate($to_date,'php:Y') + 543 );
+            //return Json::encode($reasonArr);
+        }
+        $dataProvider = new ArrayDataProvider([
+            'allModels' => $result,
+            'pagination' => [
+                'pageSize' => false,
+            ],
+        ]);
+        $reasonArr = ArrayHelper::merge($reasonArr, [
+            [
+                'columns' => [
+                    ['content' => 'รวมผู้มาใช้บริการ', 'options' => ['style' => 'text-align: center; width: 50%', 'colspan' => 3]],
+                    ['content' => $summary. ' คน', 'options' => ['style' => 'text-align: center; width: 50%', 'colspan' => 3]],
+                ]
+            ]
+        ]);
+
+        /* $dataProviderReason = new ArrayDataProvider([
+            'allModels' => $reasonArr,
+            'pagination' => [
+                'pageSize' => false,
+            ],
+        ]); */
+        return $this->render('satis',[
+            'dataProvider' => $dataProvider,
+            'modelReport' => $modelReport,
+            'data' => $data,
+            'reportHeader' => $reportHeader,
+            'afterFooter' => $reasonArr,
+            //'dataProviderReason' => $dataProviderReason,
+        ]);
     }
 
 }

@@ -14,11 +14,12 @@ class Report extends Model {
     public $to_date;
     public $times;
     public $date_range;
+    public $user;
 
     public function rules()
     {
         return [
-            [['from_date', 'from_date','times','date_range'], 'safe'],
+            [['from_date', 'from_date','times','date_range', 'user'], 'safe'],
         ];
     }
 
@@ -28,6 +29,7 @@ class Report extends Model {
             'from_date' => 'วันที่',
             'to_date' => 'ถึงวันที่',
             'times' => 'ช่วงเวลา',
+            'user' => 'User'
         ];
     }
 }

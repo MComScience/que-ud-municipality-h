@@ -5,6 +5,7 @@ use common\components\ChartBuilder;
 use frontend\modules\app\models\TbQue;
 use frontend\modules\app\models\TbService;
 use frontend\modules\app\models\TbServiceGroup;
+use frontend\modules\app\models\TbRatingReason;
 use Yii;
 use yii\base\InvalidParamException;
 use yii\helpers\ArrayHelper;
@@ -292,7 +293,7 @@ class SiteController extends Controller
         return $this->render('satis');
     }
 
-    public function actionCreateSatis($id)
+    public function actionCreateSatis($id,$reason)
     {
         $request = Yii::$app->request;
         if ($request->isAjax){
@@ -302,18 +303,40 @@ class SiteController extends Controller
             $model->rating_value = $id;
             $model->user_id = Yii::$app->user->id;
             $model->created_at = Yii::$app->formatter->asDate('now','php:Y-m-d H:i:s');
-            if($model->save()){
-                return [
-                    'success' => true,
-                    'msg' => 'Completed!',
-                    'model' => $model,
-                ];
-            }else{
-                return [
-                    'success' => true,
-                    'msg' => $model->errors,
-                ];
+
+            if($reason != 'false' || $reason !== false){
+                $modelReason = new TbRatingReason();
+                $modelReason->rating_value = $id;
+                $modelReason->reason_value = $reason;
+                $modelReason->user_id = Yii::$app->user->id;
+                $modelReason->created_at = Yii::$app->formatter->asDate('now','php:Y-m-d H:i:s');
+                if($model->save() && $modelReason->save()){
+                    return [
+                        'success' => true,
+                        'msg' => 'Completed!',
+                        'model' => $model,
+                    ];
+                }else{
+                    return [
+                        'success' => true,
+                        'msg' => $model->errors,
+                    ];
+                }
+            } else {
+                if($model->save()){
+                    return [
+                        'success' => true,
+                        'msg' => 'Completed!',
+                        'model' => $model,
+                    ];
+                }else{
+                    return [
+                        'success' => true,
+                        'msg' => $model->errors,
+                    ];
+                }
             }
+            
         }
     }
 }

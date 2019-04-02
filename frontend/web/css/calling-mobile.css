@@ -12,6 +12,7 @@
     bottom: 12%;
     width: 100%;
     right: 0;
+    z-index: 1000;
 }
 
 button.btn.btn-lg.btn-info.btn-block {

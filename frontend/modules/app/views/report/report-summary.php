@@ -201,7 +201,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             'pageSummary' => true,
                         ],
                         [
-                            'header' => 'จำนวนผู้ป่วย',
+                            'header' => 'จำนวน',
                             'attribute' => 'count_que',
                             'hAlign' => 'center',
                             'pageSummary' => true,

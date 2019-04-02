@@ -117,6 +117,17 @@ $this->title = 'ความพึงพอใจ';
         max-width: 100%;
         height: auto;
     }
+    .swal2-radio {
+        display: table !important;
+    }
+    .swal2-popup .swal2-checkbox label, .swal2-popup .swal2-radio label {
+        display: block !important;  
+        font-size: 2em;
+    }
+    input[type=radio] {
+        width: 30px;
+        height: 30px;
+    }
 </style>
 <!-- Header -->
 <?php /*
@@ -141,7 +152,7 @@ $this->title = 'ความพึงพอใจ';
         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-center">
         </div>
         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-center">
-            <a href="<?= Url::to(['create-satis','id' => 5]) ?>" class="btn btn-lg btn-success">
+            <a href="<?= Url::to(['create-satis','id' => 5]) ?>" class="btn btn-lg btn-success" data-id="5">
                 <div class="row">
                     <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xs-offset-1 col-sm-offset-1 col-md-offset-1 col-lg-offset-1">
                         <?= Html::img(Yii::getAlias('@web/imgs/very-happy.png'), ['class' => 'img-responsive center-block img-satis faa-vertical animated']) ?>
@@ -160,7 +171,7 @@ $this->title = 'ความพึงพอใจ';
         <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 text-center">
         </div>
         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-center">
-            <a href="<?= Url::to(['create-satis','id' => 4]) ?>" class="btn btn-lg btn-success">
+            <a href="<?= Url::to(['create-satis','id' => 4]) ?>" class="btn btn-lg btn-success" data-id="4">
                 <div class="row">
                     <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xs-offset-1 col-sm-offset-1 col-md-offset-1 col-lg-offset-1">
                         <?= Html::img(Yii::getAlias('@web/imgs/happy.png'), ['class' => 'img-responsive center-block img-satis faa-vertical animated']) ?>
@@ -175,7 +186,7 @@ $this->title = 'ความพึงพอใจ';
             </a>
         </div>
         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-center">
-            <a href="<?= Url::to(['create-satis','id' => 3]) ?>" class="btn btn-lg btn-warning">
+            <a href="<?= Url::to(['create-satis','id' => 3]) ?>" class="btn btn-lg btn-warning" data-id="3">
                 <div class="row">
                     <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xs-offset-1 col-sm-offset-1 col-md-offset-1 col-lg-offset-1">
                         <?= Html::img(Yii::getAlias('@web/imgs/confused.png'), ['class' => 'img-responsive center-block img-satis faa-vertical animated']) ?>
@@ -196,7 +207,7 @@ $this->title = 'ความพึงพอใจ';
         <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 text-center">
         </div>
         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-center">
-            <a href="<?= Url::to(['create-satis','id' => 2]) ?>" class="btn btn-lg h-bg-orange">
+            <a href="<?= Url::to(['create-satis','id' => 2]) ?>" class="btn btn-lg h-bg-orange" data-id="2">
                 <div class="row">
                     <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xs-offset-1 col-sm-offset-1 col-md-offset-1 col-lg-offset-1">
                         <?= Html::img(Yii::getAlias('@web/imgs/very-confused.png'), ['class' => 'img-responsive center-block img-satis faa-vertical animated']) ?>
@@ -211,7 +222,7 @@ $this->title = 'ความพึงพอใจ';
             </a>
         </div>
         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-center">
-            <a href="<?= Url::to(['create-satis','id' => 1]) ?>" class="btn btn-lg btn-danger">
+            <a href="<?= Url::to(['create-satis','id' => 1]) ?>" class="btn btn-lg btn-danger" data-id="1">
                 <div class="row">
                     <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xs-offset-1 col-sm-offset-1 col-md-offset-1 col-lg-offset-1">
                         <?= Html::img(Yii::getAlias('@web/imgs/sad.png'), ['class' => 'img-responsive center-block img-satis faa-vertical animated']) ?>
@@ -240,28 +251,88 @@ $this->registerJs(<<<JS
 $('a').on('click', function(e){
     e.preventDefault();
     var url = $(this).attr('href');
-    $.ajax({
-        method: "GET",
-        url: baseUrl + url,
-        dataType: "json",
-        success: function (response) {
-            swal({
-                 type: 'success',
-                 title: 'ขอบคุณที่มาใช้บริการ',
-                 showConfirmButton: false,
-                 timer: 3000,
-                 footer: 'เทศบาลนครอุดรธานี'
-            });
-            $('.btn-info:hover').css('background-color','#269abc');
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            swal({
-                type: 'error',
-                title: textStatus,
-                text: errorThrown,
-            });
-        }
-    });
+    var id = $(this).data('id');
+    if(id == 2 || id == 1) {
+        Swal.fire({
+            title: 'กรุณาเลือกเหตุผลของคุณ',
+            text: 'จากนนั้น กด "ตกลง"',
+            input: 'radio',
+            allowOutsideClick: false,
+            //showConfirmButton: false,
+            confirmButtonText: 'ตกลง',
+            inputOptions: {
+                1 : 'พูดจาไม่สุภาพ',
+                2 : 'ไม่ใส่ใจบริการ',
+                3 : 'ทำงานไม่ตรงเวลา',
+                4 : 'ล่าช้า'
+            },
+            inputValidator: (value) => {
+                if (!value) {
+                    return 'กรุณาเลือกเหตุผล!'
+                }
+            },
+            /* onBeforeOpen: () => {
+                $('input[name="swal2-radio"]').on('change', function(){
+                    Swal.clickConfirm()
+                });
+            } */
+        }).then((result) => {
+            if(result.value){
+                $.ajax({
+                    method: "GET",
+                    url: baseUrl + url,
+                    dataType: "json",
+                    data: {
+                        reason: result.value
+                    },
+                    success: function (response) {
+                        
+                        swal({
+                            type: 'success',
+                            title: 'ขอบคุณที่มาใช้บริการ',
+                            showConfirmButton: false,
+                            timer: 3000,
+                            footer: 'เทศบาลนครอุดรธานี'
+                        });
+                        $('.btn-info:hover').css('background-color','#269abc');
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        swal({
+                            type: 'error',
+                            title: textStatus,
+                            text: errorThrown,
+                        });
+                    }
+                });
+            }
+        });
+    } else {
+        $.ajax({
+            method: "GET",
+            url: baseUrl + url,
+            dataType: "json",
+            data: {
+                reason: 'false'
+            },
+            success: function (response) {
+                swal({
+                    type: 'success',
+                    title: 'ขอบคุณที่มาใช้บริการ',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    footer: 'เทศบาลนครอุดรธานี'
+                });
+                $('.btn-info:hover').css('background-color','#269abc');
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                swal({
+                    type: 'error',
+                    title: textStatus,
+                    text: errorThrown,
+                });
+            }
+        });
+    }
 });
 JS
 );

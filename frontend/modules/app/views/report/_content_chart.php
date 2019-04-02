@@ -45,7 +45,7 @@ $service_group_id = $model['service_group_id'];
                         'type' => 'pie'
                     ],
                     'title' => [
-                        'text' => 'ร้อยละของจำนวนผู้ป่วย แยกตามประเภทผู้ป่วย'
+                        'text' => 'ร้อยละของจำนวนผู้ที่มาใช้บริการ แยกตามประเภทผู้ป่วย'
                     ],
                     'tooltip' => [
                         'pointFormat' => '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -88,7 +88,7 @@ $service_group_id = $model['service_group_id'];
                         'type' => 'bar'
                     ],
                     'title' => [
-                        'text' => 'จำนนวนผู้ป่วย แยกตามประเภทผู้ป่วย'
+                        'text' => 'จำนนวนผู้ที่มาใช้บริการ แยกตามประเภท'
                     ],
                     'xAxis' => [
                         'categories' => $model['dataChart2']['categories'],
@@ -141,7 +141,7 @@ $service_group_id = $model['service_group_id'];
                         'type' => 'column'
                     ],
                     'title' => [
-                        'text' => 'จำนวนผู้ป่วยที่มาใช้บริการและจำนวนคิวที่จ่ายได้ แบ่งตามช่วงเวลา'
+                        'text' => 'จำนวนผู้ที่มาใช้บริการและจำนวนคิวที่จ่ายได้ แบ่งตามช่วงเวลา'
                     ],
                     'subtitle' => [
                         'text' => 'สามารถคลิกที่แท่งกราฟเพื่อดูจำนวนแยกตามประเภทบริการได้'
