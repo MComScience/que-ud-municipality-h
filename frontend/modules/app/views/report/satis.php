@@ -218,7 +218,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             'showPageSummary' => true,
                             'showFooter' => true,
                             'showCaption' => true,
-                            'filename' => 'รายงานระยะเวลารอคอย',
+                            'filename' => 'รายงานความพึงพอใจ',
                             'alertMsg' => 'The PDF export file will be generated for download.',
                             'options' => ['title' => 'Portable Document Format'],
                             'mime' => 'application/pdf',
