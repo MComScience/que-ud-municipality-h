@@ -42,7 +42,7 @@ $this->title = 'ความพึงพอใจ';
     a, h1, h2, h4{
         color: #fff;
     }
-    .btn-lg {
+    .custom-style a.btn-lg {
         padding: 5px;
         border-radius: 100px;
         margin-bottom: 15px;
@@ -152,7 +152,7 @@ $this->title = 'ความพึงพอใจ';
         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-center">
         </div>
         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-center">
-            <a href="<?= Url::to(['create-satis','id' => 5]) ?>" class="btn btn-lg btn-success" data-id="5">
+            <a href="<?= Url::to(['create-satis','id' => 5]) ?>" class="btn btn-lg btn-success" data-id="5" data-label="มากที่สุด">
                 <div class="row">
                     <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xs-offset-1 col-sm-offset-1 col-md-offset-1 col-lg-offset-1">
                         <?= Html::img(Yii::getAlias('@web/imgs/very-happy.png'), ['class' => 'img-responsive center-block img-satis faa-vertical animated']) ?>
@@ -171,7 +171,7 @@ $this->title = 'ความพึงพอใจ';
         <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 text-center">
         </div>
         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-center">
-            <a href="<?= Url::to(['create-satis','id' => 4]) ?>" class="btn btn-lg btn-success" data-id="4">
+            <a href="<?= Url::to(['create-satis','id' => 4]) ?>" class="btn btn-lg btn-success" data-id="4" data-label="มาก">
                 <div class="row">
                     <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xs-offset-1 col-sm-offset-1 col-md-offset-1 col-lg-offset-1">
                         <?= Html::img(Yii::getAlias('@web/imgs/happy.png'), ['class' => 'img-responsive center-block img-satis faa-vertical animated']) ?>
@@ -186,7 +186,7 @@ $this->title = 'ความพึงพอใจ';
             </a>
         </div>
         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-center">
-            <a href="<?= Url::to(['create-satis','id' => 3]) ?>" class="btn btn-lg btn-warning" data-id="3">
+            <a href="<?= Url::to(['create-satis','id' => 3]) ?>" class="btn btn-lg btn-warning" data-id="3" data-label="ปานกลาง">
                 <div class="row">
                     <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xs-offset-1 col-sm-offset-1 col-md-offset-1 col-lg-offset-1">
                         <?= Html::img(Yii::getAlias('@web/imgs/confused.png'), ['class' => 'img-responsive center-block img-satis faa-vertical animated']) ?>
@@ -207,7 +207,7 @@ $this->title = 'ความพึงพอใจ';
         <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 text-center">
         </div>
         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-center">
-            <a href="<?= Url::to(['create-satis','id' => 2]) ?>" class="btn btn-lg h-bg-orange" data-id="2">
+            <a href="<?= Url::to(['create-satis','id' => 2]) ?>" class="btn btn-lg h-bg-orange" data-id="2" data-label="น้อย">
                 <div class="row">
                     <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xs-offset-1 col-sm-offset-1 col-md-offset-1 col-lg-offset-1">
                         <?= Html::img(Yii::getAlias('@web/imgs/very-confused.png'), ['class' => 'img-responsive center-block img-satis faa-vertical animated']) ?>
@@ -222,7 +222,7 @@ $this->title = 'ความพึงพอใจ';
             </a>
         </div>
         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-center">
-            <a href="<?= Url::to(['create-satis','id' => 1]) ?>" class="btn btn-lg btn-danger" data-id="1">
+            <a href="<?= Url::to(['create-satis','id' => 1]) ?>" class="btn btn-lg btn-danger" data-id="1" data-label="น้อยมาก">
                 <div class="row">
                     <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xs-offset-1 col-sm-offset-1 col-md-offset-1 col-lg-offset-1">
                         <?= Html::img(Yii::getAlias('@web/imgs/sad.png'), ['class' => 'img-responsive center-block img-satis faa-vertical animated']) ?>
@@ -252,41 +252,113 @@ $('a').on('click', function(e){
     e.preventDefault();
     var url = $(this).attr('href');
     var id = $(this).data('id');
+    var label = $(this).data('label');
     if(id == 2 || id == 1) {
         Swal.fire({
             title: 'กรุณาเลือกเหตุผลของคุณ',
-            text: 'จากนนั้น กด "ตกลง"',
-            input: 'radio',
+            text: label,
+            type: 'warning',
+            showCancelButton: false,
             allowOutsideClick: false,
-            //showConfirmButton: false,
-            confirmButtonText: 'ตกลง',
-            inputOptions: {
-                1 : 'พูดจาไม่สุภาพ',
-                2 : 'ไม่ใส่ใจบริการ',
-                3 : 'ทำงานไม่ตรงเวลา',
-                4 : 'ล่าช้า'
-            },
-            inputValidator: (value) => {
-                if (!value) {
-                    return 'กรุณาเลือกเหตุผล!'
-                }
-            },
-            /* onBeforeOpen: () => {
-                $('input[name="swal2-radio"]').on('change', function(){
-                    Swal.clickConfirm()
+            showConfirmButton: false,
+            footer: `
+            <div class="row">
+                <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12 text-center">
+                    <p><button class="btn btn-lg btn-block btn-info on-click-event" data-id="1" data-label="พูดจาไม่สุภาพ"><i class="fa fa-hand-pointer-o"></i> พูดจาไม่สุภาพ</button></p>
+                    <p><button class="btn btn-lg btn-block btn-info on-click-event" data-id="2" data-label="ไม่ใส่ใจบริการ"><i class="fa fa-hand-pointer-o"></i> ไม่ใส่ใจบริการ</button></p>
+                    <p><button class="btn btn-lg btn-block btn-info on-click-event" data-id="3" data-label="ทำงานไม่ตรงเวลา"><i class="fa fa-hand-pointer-o"></i> ทำงานไม่ตรงเวลา</button></p>
+                    <p><button class="btn btn-lg btn-block btn-info on-click-event" data-id="4" data-label="ล่าช้า"><i class="fa fa-hand-pointer-o"></i> ล่าช้า</button></p>
+                    <p><button class="btn btn-lg btn-block btn-danger on-cancel">ยกเลิก</button></p>
+                </div>
+            </div>
+            `,
+            onBeforeOpen: () => {
+                $('.swal2-footer').css('display', 'table');
+                $('button.on-cancel').on('click', function() {
+                    Swal.close();
                 });
-            } */
+                $('button.on-click-event').on('click', function(e) {
+                    onConfirm(label, $(this).data('id'), url, $(this).data('label'));
+                });
+            },
         }).then((result) => {
             if(result.value){
+                
+            }
+        });
+    } else {
+        Swal.fire({
+            title: 'ยืนยันความพึงพอใจ?',
+            text: 'ความพึงพอใจของคุณคือ ' + label,
+            type: 'warning',
+            showCancelButton: true,
+            cancelButtonText: 'ยกเลิก',
+            confirmButtonText: 'ตกลง',
+            showLoaderOnConfirm: true,
+            preConfirm: () => {
+                return new Promise(function (resolve, reject) {
+                    $.ajax({
+                        method: "GET",
+                        url: baseUrl + url,
+                        dataType: "json",
+                        data: {
+                            reason: 'false'
+                        },
+                        success: function (response) {
+                            swal({
+                                type: 'success',
+                                title: 'ขอบคุณที่มาใช้บริการ',
+                                showConfirmButton: false,
+                                timer: 3000,
+                                footer: 'เทศบาลนครอุดรธานี'
+                            });
+                            $('.btn-info:hover').css('background-color','#269abc');
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            swal({
+                                type: 'error',
+                                title: textStatus,
+                                text: errorThrown,
+                            });
+                        }
+                    });
+                });
+            },
+            allowOutsideClick: () => !Swal.isLoading()
+        }).then((result) => {
+            if (result.value) {
+                swal({
+                    type: 'success',
+                    title: 'ขอบคุณที่มาใช้บริการ',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    footer: 'เทศบาลนครอุดรธานี'
+                });
+                $('.btn-info:hover').css('background-color','#269abc');
+            }
+        });
+    }
+});
+
+onConfirm = function (label, reason, url, reasonLabel) {
+    Swal.fire({
+        title: 'ยืนยันความพึงพอใจ?',
+        text: 'ความพึงพอใจของคุณคือ ' + label + ' และ ' + reasonLabel,
+        type: 'warning',
+        showCancelButton: true,
+        cancelButtonText: 'ยกเลิก',
+        confirmButtonText: 'ตกลง',
+        showLoaderOnConfirm: true,
+        preConfirm: () => {
+            return new Promise(function (resolve, reject) {
                 $.ajax({
                     method: "GET",
                     url: baseUrl + url,
                     dataType: "json",
                     data: {
-                        reason: result.value
+                        reason: reason
                     },
                     success: function (response) {
-                        
                         swal({
                             type: 'success',
                             title: 'ขอบคุณที่มาใช้บริการ',
@@ -304,36 +376,22 @@ $('a').on('click', function(e){
                         });
                     }
                 });
-            }
-        });
-    } else {
-        $.ajax({
-            method: "GET",
-            url: baseUrl + url,
-            dataType: "json",
-            data: {
-                reason: 'false'
-            },
-            success: function (response) {
-                swal({
-                    type: 'success',
-                    title: 'ขอบคุณที่มาใช้บริการ',
-                    showConfirmButton: false,
-                    timer: 3000,
-                    footer: 'เทศบาลนครอุดรธานี'
-                });
-                $('.btn-info:hover').css('background-color','#269abc');
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                swal({
-                    type: 'error',
-                    title: textStatus,
-                    text: errorThrown,
-                });
-            }
-        });
-    }
-});
+            });
+        },
+        allowOutsideClick: () => !Swal.isLoading()
+    }).then((result) => {
+        if (result.value) {
+            swal({
+                type: 'success',
+                title: 'ขอบคุณที่มาใช้บริการ',
+                showConfirmButton: false,
+                timer: 3000,
+                footer: 'เทศบาลนครอุดรธานี'
+            });
+            $('.btn-info:hover').css('background-color','#269abc');
+        }
+    });
+}
 JS
 );
 ?>
