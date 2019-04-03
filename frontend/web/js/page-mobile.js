@@ -38,7 +38,7 @@ const Select2 = Vue.component('select2', {
                 allowClear: true,
                 theme: "bootstrap",
                 containerCssClass: ':all:'
-            }).val($(this.$el).val()).trigger('change');
+            });
         }
     },
     destroyed: function () {
@@ -52,8 +52,8 @@ var app = new Vue({
         search: null,
         profileOptions: null,
         counterOptions: null,
-        profileId: null,
-        counterId: null,
+        profileId: '',
+        counterId: '',
         tblCalling: null,
         tblHold: null,
         tblWait: null,
@@ -67,6 +67,7 @@ var app = new Vue({
             event: null
         },
         showAction: true,
+        isSession: false
     },
     methods: {
         onSubmit: function () {
@@ -310,6 +311,9 @@ var app = new Vue({
                 dataType: "json",
                 success: function (response) {
                     vm.profileOptions = vm.mapDataOptions(response);
+                    setTimeout(function() {
+                        vm.getStateProfile()
+                    },1000);
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
                     vm.handleAjaxError(textStatus, errorThrown);
@@ -327,6 +331,11 @@ var app = new Vue({
                 dataType: "json",
                 success: function (response) {
                     vm.counterOptions = vm.mapDataOptions(response);
+                    if(vm.isSession && vm.counterId){
+                        setTimeout(function(){
+                            $('#select2-counter').val(vm.counterId).trigger('change');
+                        },500);
+                    }
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
                     vm.handleAjaxError(textStatus, errorThrown);
@@ -416,6 +425,7 @@ var app = new Vue({
         },
         mapDataOptions: function (options) {
             const dataOptions = [];
+            dataOptions.push({id: '', text: 'เลือกรายการ'});
             for (let key in options) {
                 dataOptions.push({id: key, text: options[key]});
             }
@@ -424,12 +434,13 @@ var app = new Vue({
         onChangeSelection: function (e) {
             const vm = this
             if (!e.value && e.elm.id === 'select2-profile') {
-                vm.profileId = null;
+                vm.profileId = '';
                 vm.counterOptions = null;
+                vm.counterId = '';
             }
             if (!e.value && e.elm.id === 'select2-counter') {
-                vm.counterId = null;
-                vm.counterOptions = null;
+                vm.counterId = '';
+                //vm.counterOptions = null;
             }
             if (e.value && e.elm.id === 'select2-profile') {
                 vm.profileId = e.value;
@@ -438,16 +449,57 @@ var app = new Vue({
                 vm.counterId = e.value;
                 vm.fetchDataCallingOptions();
             }
+
             vm.dataOnState = vm.updateObject(vm.dataOnState, {
                 name: '-',
                 queueNumber: '',
                 info: null,
                 event: null
             });
+            vm.setStateProfile();
+        },
+        setStateProfile: function () {
+            const vm = this;
+            if(vm.profileId && vm.counterId){
+                $.ajax({
+                    method: "POST",
+                    url: "/app/calling/save-state-profile",
+                    dataType: "json",
+                    data: {
+                        profileId: vm.profileId, //Data in column Datatable
+                        counterId: vm.counterId,
+                    },
+                    success: function (response) {
+                        console.log(response)
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        vm.handleAjaxError(textStatus, errorThrown);
+                    }
+                });
+            }
+        },
+        getStateProfile: function () {
+            const vm = this;
+            $.ajax({
+                method: "POST",
+                url: "/app/calling/load-state-profile",
+                dataType: "json",
+                success: function (response) {
+                    if(response.profileId && response.counterId && vm.profileOptions){
+                        vm.isSession = true;
+                        vm.profileId = response.profileId;
+                        vm.counterId = response.counterId;
+                        $('#select2-profile').val(response.profileId).trigger('change');
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    vm.handleAjaxError(textStatus, errorThrown);
+                }
+            });
         },
         getProfileLabel: function () {
             const vm = this
-            let label = '-';
+            let label = 'คุณยังไม่ได้เลือกโปรไฟล์';
             if (vm.profileId) {
                 for (let index in vm.profileOptions) {
                     if (vm.profileId === vm.profileOptions[index].id) {
@@ -460,7 +512,7 @@ var app = new Vue({
         },
         getCounterLabel: function () {
             const vm = this
-            let label = '-';
+            let label = '';
             if (vm.counterId) {
                 for (let index in vm.counterOptions) {
                     if (vm.counterId === vm.counterOptions[index].id) {

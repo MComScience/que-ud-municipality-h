@@ -41,11 +41,6 @@ class CallingController extends \yii\web\Controller
                     ],
                 ],
             ],
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                ],
-            ],
         ];
     }
 
@@ -451,6 +446,46 @@ class CallingController extends \yii\web\Controller
             'modelProfile' => $modelProfile,
             'formData' => $formData
         ];
+    }
+
+    public function actionSaveStateProfile()
+    {
+        $request = Yii::$app->request;
+        if($request->isAjax){
+            $response = Yii::$app->response;
+            $response->format = \yii\web\Response::FORMAT_JSON;
+            $session = Yii::$app->session;
+            $data = $request->post();
+            if(!empty($data['profileId']) && !empty($data['counterId'])) {
+                $session->set('profileId', $request->post('profileId'));
+                $session->set('counterId', $request->post('counterId'));
+            } else {
+                $session->remove('profileId');
+                $session->remove('counterId');
+            }
+            return 'Save State Completed!';
+        }
+    }
+
+    public function actionLoadStateProfile()
+    {
+        $request = Yii::$app->request;
+        if($request->isAjax){
+            $response = Yii::$app->response;
+            $response->format = \yii\web\Response::FORMAT_JSON;
+            $session = Yii::$app->session;
+            if (isset($session['profileId']) && isset($session['counterId'])) {
+                return [
+                    'profileId' => $session->get('profileId'),
+                    'counterId' => $session->get('counterId'),
+                ];
+            } else {
+                return [
+                    'profileId' => null,
+                    'counterId' => null,
+                ];
+            }
+        }
     }
 
 }
