@@ -8,6 +8,7 @@ use frontend\modules\app\models\TbService;
 use frontend\modules\app\models\TbServiceGroup;
 use frontend\modules\app\models\TbRating;
 use frontend\modules\app\models\TbRatingReason;
+use frontend\modules\app\models\TbCallerData;
 use Yii;
 use yii\data\ArrayDataProvider;
 use yii\filters\AccessControl;
@@ -416,6 +417,63 @@ class ReportController extends \yii\web\Controller
             'dataProvider' => $dataProvider,
             'modelReport' => $modelReport,
             'data' => $data,
+        ]);
+    }
+
+    public function actionUser()
+    {
+        $request = Yii::$app->request;
+        $model = new Report();
+        $data = [];
+        $posted = $request->post('Report', []);
+        if ($model->load($request->post())) {
+            $from_date = empty($posted['from_date']) ? substr($posted['date_range'], 0, 10) : $posted['from_date'];
+            $to_date = empty($posted['to_date']) ? substr($posted['date_range'], 13, 22) : $posted['to_date'];
+            $users = (new \yii\db\Query())
+                ->select(['`user`.id', '`user`.username', '`profile`.name'])
+                ->from('`user`')
+                ->innerJoin('`profile`', '`profile`.user_id = user.id')
+                ->where(['NOT IN', '`user`.id', 1])
+                ->all();
+            $period = new \DatePeriod(
+                new \DateTime($from_date),
+                new \DateInterval('P1D'),
+                new \DateTime(date('Y-m-d', strtotime('+1 day', strtotime($to_date))))
+            );
+            foreach ($period as $key => $value) {
+                $day = $value->format('Y-m-d');
+                $start = $day . ' 00:00:00';
+                $end = $day . ' 23:59:59';
+                foreach ($users as $user) {
+                    $count1 = TbQueData::find()
+                        ->where(['between', 'created_at', $start, $end])
+                        ->andWhere(['created_by' => $user['id']])
+                        ->count();
+                    $count2 = TbCallerData::find()
+                        ->where(['between', 'created_at', $start, $end])
+                        ->andWhere(['created_by' => $user['id']])
+                        ->count();
+                    $data[] = [
+                        'id' => $user['id'],
+                        'username' => $user['username'],
+                        'name' => $user['name'],
+                        'count1' => $count1,
+                        'count2' => $count2,
+                        'day' => $day
+                    ];
+                }
+            }
+        }
+        $dataProvider = new ArrayDataProvider([
+            'allModels' => $data,
+            'pagination' => [
+                'pageSize' => false,
+            ],
+        ]);
+        return $this->render('user', [
+            'posted' => $posted,
+            'model' => $model,
+            'dataProvider' => $dataProvider,
         ]);
     }
 

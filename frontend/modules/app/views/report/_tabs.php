@@ -17,6 +17,11 @@ echo Tabs::widget([
             'active' => $action == 'index' ? true : false,
         ],
         [
+            'label' => 'รายงานการปฎิบัติงาน',
+            'url' => $action == 'user' ? '#' : Url::to(['/app/report/user']),
+            'active' => $action == 'user' ? true : false,
+        ],
+        [
             'label' => 'รายงานระยะเวลารอคอย(ภาพรวม)',
             'url' => $action == 'report-summary' ? '#' : Url::to(['/app/report/report-summary']),
             'active' => $action == 'report-summary' ? true : false,
