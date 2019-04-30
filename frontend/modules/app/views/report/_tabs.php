@@ -12,14 +12,14 @@ echo Tabs::widget([
             'active' => $action == 'chart' ? true : false,
         ],
         [
-            'label' => 'ระยะเวลารอคอย(แบ่งตามช่วงเวลา)',
-            'url' => $action == 'index' ? '#' : Url::to(['/app/report/index']),
-            'active' => $action == 'index' ? true : false,
-        ],
-        [
             'label' => 'รายงานการปฎิบัติงาน',
             'url' => $action == 'user' ? '#' : Url::to(['/app/report/user']),
             'active' => $action == 'user' ? true : false,
+        ],
+        [
+            'label' => 'ระยะเวลารอคอย(แบ่งตามช่วงเวลา)',
+            'url' => $action == 'index' ? '#' : Url::to(['/app/report/index']),
+            'active' => $action == 'index' ? true : false,
         ],
         [
             'label' => 'รายงานระยะเวลารอคอย(ภาพรวม)',
