@@ -1,4 +1,5 @@
 <?php
+
 use yii\helpers\Html;
 use homer\sweetalert2\assets\SweetAlert2Asset;
 use frontend\assets\SocketIOAsset;
@@ -23,8 +24,8 @@ $this->registerCss(<<<CSS
 }
 CSS
 );
-$this->registerCss(\Yii::$app->keyStorage->get('background-kiosk',''));
-$this->registerCss(\Yii::$app->keyStorage->get('button-kiosk-position',''));
+$this->registerCss(\Yii::$app->keyStorage->get('background-kiosk', ''));
+$this->registerCss(\Yii::$app->keyStorage->get('button-kiosk-position', ''));
 $this->registerJsFile(
     YII_DEBUG ? '@web/js/vue/vue.js' : '@web/js/vue/vue.min.js',
     ['position' => View::POS_HEAD]
@@ -37,23 +38,23 @@ $this->registerJs('var device = ' . Json::encode($device) . '; ', View::POS_HEAD
 $currentId = null;
 $count = count($sources);
 ?>
-<div id="app">
-    <div class="row">
-        <div class="col-xs-7 col-sm-7 col-md-7 col-xs-offset-4 col-sm-offset-4 col-md-offset-4 text-center button-kiosk">
-        <?php foreach($sources as $index => $item): ?>
-            <?php foreach($item['services'] as $service): ?>
-                <p>
-                    <a
-                    class="btn btn-success btn-lg btn-block btn-service" 
-                    v-on:click="serviceConfirm(<?= $service['service_id'] ?>, '<?= $service['service_name'] ?>')">
-                        <?= Html::encode($service['service_name']) ?>
-                    </a>
-                </p>
-            <?php endforeach; ?>
-        <?php endforeach; ?>
+    <div id="app">
+        <div class="row">
+            <div class="col-xs-7 col-sm-7 col-md-7 col-xs-offset-4 col-sm-offset-4 col-md-offset-4 text-center button-kiosk">
+                <?php foreach ($sources as $index => $item): ?>
+                    <?php foreach ($item['services'] as $service): ?>
+                        <p>
+                            <a
+                                    class="btn btn-success btn-lg btn-block btn-service"
+                                    v-on:click="serviceConfirm(<?= $service['service_id'] ?>, '<?= $service['service_name'] ?>')">
+                                <?= Html::encode($service['service_name']) ?>
+                            </a>
+                        </p>
+                    <?php endforeach; ?>
+                <?php endforeach; ?>
+            </div>
         </div>
     </div>
-</div>
 
 <?php
 $this->registerJsFile(

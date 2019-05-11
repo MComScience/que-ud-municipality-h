@@ -74,8 +74,7 @@ var app = new Vue({
         serviceConfirm: function(serviceId, serviceName) {
             this.serviceId = serviceId;
             Swal.fire({
-                title: 'มีบัตรประชาชนหรือไม่?',
-                text: serviceName,
+                title: serviceName,
                 type: 'question',
                 showCancelButton: false,
                 showConfirmButton: false,
@@ -83,9 +82,8 @@ var app = new Vue({
                 heightAuto: false,
                 //confirmButtonText: 'มีบัตร',
                 //cancelButtonText: 'ไม่มีบัตร',
-                footer: `<a class="btn btn-lg btn-block btn-success" onclick="onCard()"><i class="fa fa-hand-pointer-o"></i> มีบัตร</a>
-                <a class="btn btn-lg btn-block btn-warning" onclick="onNoCard()"><i class="fa fa-hand-pointer-o"></i> ไม่มีบัตร</a>
-                <a class="btn btn-lg btn-block btn-danger" onclick="onCancel()"><i class="fa fa-close"></i> ยกเลิก</a>`
+                footer: `<a class="btn btn-lg btn-block btn-warning" onclick="onNoCard()"><i class="fa fa-hand-pointer-o"></i><h1>ตกลง</h1></a>
+                <a class="btn btn-lg btn-block btn-danger" onclick="onCancel()"><i class="fa fa-close"></i> <h1>ยกเลิก</h1></a>`
             });
         },
         clearData: function () {
