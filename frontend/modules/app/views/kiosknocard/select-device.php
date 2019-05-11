@@ -27,23 +27,6 @@ $this->params['breadcrumbs'][] = $this->title;
             </div>
         </div>
     <?php endforeach; ?>
-    <?php foreach($devices as $device): ?>
-        <div class="col-md-3">
-            <div class="hpanel">
-                <div class="panel-body">
-                    <div class="text-center">
-                        <h4 class="m-b-xs">แบบไม่ต้องสแกนบัตร</h4>
-                        <h4 class="m-b-xs"><?= $device['device_name'] ?></h4>
-                        <p class="font-bold text-success"></p>
-                        <div class="m">
-                            <i class="pe-7s-monitor fa-5x"></i>
-                        </div>
-                        <?= Html::a('Open',['/app/kiosknocard/service', 'deviceId' => $device['device_id']],['class' => 'btn btn-success']) ?>
-                    </div>
-                </div>
-            </div>
-        </div>
-    <?php endforeach; ?>
 </div>
 <?php
 $this->registerJs(<<<JS

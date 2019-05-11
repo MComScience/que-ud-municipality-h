@@ -84,6 +84,7 @@ return [
             'app/display/*',
             'qrcode/*',
             'app/kiosk/service',
+            'app/kiosknocard/service',
             'app/kiosk/select-device',
             'app/kiosk/register',
             'app/kiosk/register-nocard',
