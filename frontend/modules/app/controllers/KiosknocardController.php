@@ -236,7 +236,7 @@ class KiosknocardController extends \yii\web\Controller
                     'modelQue' => $modelQue,
                     'modelService' => $modelService,
                     'modelServiceGroup' => $modelServiceGroup,
-                    'url' => Url::to(['/app/kiosk/print-ticket', 'que_ids' => $modelQue['que_ids']])
+                    'url' => Url::to(['/app/kiosknocard/print-ticket', 'que_ids' => $modelQue['que_ids']])
                 ];
             } else {
                 return [

@@ -24,7 +24,8 @@ var app = new Vue({
                 }
             });
         },
-        onNoCard: function() {
+        onNoCard: function(serviceId) {
+            this.serviceId = serviceId
             this.isCard = false;
             Swal.fire({
                 type: 'warning',
@@ -37,7 +38,7 @@ var app = new Vue({
                 heightAuto: false,
             });
             $.ajax({
-                url: baseUrl + '/app/kiosk/register-nocard',
+                url: baseUrl + '/app/kiosknocard/register-nocard',
                 type: 'POST',
                 data: {
                     service_id: app.serviceId,
@@ -74,7 +75,8 @@ var app = new Vue({
         serviceConfirm: function(serviceId, serviceName) {
             this.serviceId = serviceId;
             Swal.fire({
-                title: serviceName,
+                title: 'มีบัตรประชาชนหรือไม่?',
+                text: serviceName,
                 type: 'question',
                 showCancelButton: false,
                 showConfirmButton: false,
@@ -82,8 +84,9 @@ var app = new Vue({
                 heightAuto: false,
                 //confirmButtonText: 'มีบัตร',
                 //cancelButtonText: 'ไม่มีบัตร',
-                footer: `<a class="btn btn-lg btn-block btn-warning" onclick="onNoCard()"><i class="fa fa-hand-pointer-o"></i><h1>ตกลง</h1></a>
-                <a class="btn btn-lg btn-block btn-danger" onclick="onCancel()"><i class="fa fa-close"></i> <h1>ยกเลิก</h1></a>`
+                footer: `
+                <a class="btn btn-lg btn-block btn-warning" onclick="onNoCard()"><i class="fa fa-hand-pointer-o"></i>ตกลง</a>
+                <a class="btn btn-lg btn-block btn-danger" onclick="onCancel()"><i class="fa fa-close"></i> ยกเลิก</a>`
             });
         },
         clearData: function () {

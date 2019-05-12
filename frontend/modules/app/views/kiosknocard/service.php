@@ -43,10 +43,10 @@ $count = count($sources);
             <div class="col-xs-7 col-sm-7 col-md-7 col-xs-offset-4 col-sm-offset-4 col-md-offset-4 text-center button-kiosk">
                 <?php foreach ($sources as $index => $item): ?>
                     <?php foreach ($item['services'] as $service): ?>
-                        <p>
+                    <p>
                             <a
                                     class="btn btn-success btn-lg btn-block btn-service"
-                                    v-on:click="serviceConfirm(<?= $service['service_id'] ?>, '<?= $service['service_name'] ?>')">
+                                    v-on:click="onNoCard(<?= $service['service_id'] ?>)">
                                 <?= Html::encode($service['service_name']) ?>
                             </a>
                         </p>
