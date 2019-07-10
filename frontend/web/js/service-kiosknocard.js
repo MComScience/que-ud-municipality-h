@@ -47,7 +47,7 @@ var app = new Vue({
         showCancelButton: false,
         showConfirmButton: false,
         heightAuto: false,
-        timer: 200000,
+        timer: 5000,
         padding: "1em"
       });
       $.ajax({
