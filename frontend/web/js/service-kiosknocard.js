@@ -39,17 +39,19 @@ var app = new Vue({
       //   heightAuto: false,
       //   timer: 200000
       // });
-      Swal.fire({
-        imageUrl: "/imgs/background3.jpg",
-        imageWidth: "100%",
-        imageHeight: 650,
-        width: "100%",
-        showCancelButton: false,
-        showConfirmButton: false,
-        timer: 20000,
-        heightAuto: false,
-        padding: "1em"
-      });
+      setTimeout(() => {
+        Swal.fire({
+          imageUrl: "/imgs/background3.jpg",
+          imageWidth: "100%",
+          imageHeight: 650,
+          width: "100%",
+          showCancelButton: false,
+          showConfirmButton: false,
+          timer: 20000,
+          heightAuto: false,
+          padding: "1em"
+        });
+      }, 2000);
       $.ajax({
         url: baseUrl + "/app/kiosknocard/register-nocard",
         type: "POST",
