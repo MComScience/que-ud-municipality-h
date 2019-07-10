@@ -47,11 +47,11 @@ var app = new Vue({
           width: "100%",
           showCancelButton: false,
           showConfirmButton: false,
-          timer: 20000,
+          timer: 1000,
           heightAuto: false,
           padding: "1em"
         });
-      }, 2000);
+      }, 1000);
       $.ajax({
         url: baseUrl + "/app/kiosknocard/register-nocard",
         type: "POST",
