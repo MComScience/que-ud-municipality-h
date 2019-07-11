@@ -47,7 +47,7 @@ var app = new Vue({
           width: "100%",
           showCancelButton: false,
           showConfirmButton: false,
-          timer: 10000,
+          timer: 5000,
           heightAuto: false,
           padding: "1em"
         });
