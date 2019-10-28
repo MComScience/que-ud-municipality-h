@@ -39,19 +39,19 @@ var app = new Vue({
       //   heightAuto: false,
       //   timer: 200000
       // });
-      setTimeout(() => {
-        Swal.fire({
-          imageUrl: "/imgs/background3.jpg",
-          imageWidth: "100%",
-          imageHeight: 650,
-          width: "100%",
-          showCancelButton: false,
-          showConfirmButton: false,
-          timer: 5000,
-          heightAuto: false,
-          padding: "1em"
-        });
-      }, 2000);
+      // setTimeout(() => {
+      //   Swal.fire({
+      //     imageUrl: "/imgs/background3.jpg",
+      //     imageWidth: "100%",
+      //     imageHeight: 650,
+      //     width: "100%",
+      //     showCancelButton: false,
+      //     showConfirmButton: false,
+      //     timer: 5000,
+      //     heightAuto: false,
+      //     padding: "1em"
+      //   });
+      // }, 3000);
       $.ajax({
         url: baseUrl + "/app/kiosknocard/register-nocard",
         type: "POST",
@@ -62,16 +62,22 @@ var app = new Vue({
         success: function(res) {
           if (res.success === true) {
             socket.emit("register", res);
-            window.open(res.url, "myPrint", "width=800, height=600");
-            Swal.fire({
-              type: "success",
-              title: "กรุณารับบัตรคิว",
-              html: `<img src="/imgs/ticket.png" class="img-responsive center-block" />`,
-              showConfirmButton: false,
-              showCancelButton: false,
-              timer: 2000,
-              heightAuto: false
-            });
+            window.open(res.url, "myPrint", "width=50, height=50");
+            setTimeout(() => {
+              Swal.fire({
+                // type: "success",
+                // title: "กรุณารับบัตรคิว",
+                imageWidth: "100%",
+                imageHeight: 650,
+                width: "90%",
+                imageUrl: '/imgs/bg_new.jpg', ///imgs/ticket.png
+                showConfirmButton: false,
+                showCancelButton: false,
+                timer: 5000,
+                heightAuto: false,
+                // padding: "1em"
+              });
+            },5000);
           } else {
             swal("Oops...", JSON.stringify(res.message), "error");
           }
