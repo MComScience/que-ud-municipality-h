@@ -4,12 +4,9 @@ services:
         image: mariadb:latest
         container_name: lemp_mariadb
         restart: always
-        user: '1000:50'
-        command: mysqld --innodb-flush-method=littlesync --innodb-use-native-aio=OFF --log_bin=ON
         volumes:
             - ./mysql/initdb:/docker-entrypoint-initdb.d
             - ./mysql/data:/var/lib/mysql:rw
-            # - /logs/mysql:/var/log/mysql
             - /etc/localtime:/etc/localtime:ro
         environment:
             - MYSQL_ROOT_PASSWORD=root_db
